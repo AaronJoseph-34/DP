@@ -1,0 +1,2544 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EverMore & Company | Client Portal</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              base: '#0A0A0F',
+              surface: '#12121A',
+              gold: '#6BB6FF',
+              softgold: '#DCEEFF',
+              textsoft: '#8A8A9A',
+              success: '#00C896',
+              danger: '#FF4D6D',
+            },
+            boxShadow: {
+              glow: '0 0 0 1px rgba(107,182,255,0.35), 0 12px 35px rgba(107,182,255,0.16)',
+            },
+            fontFamily: {
+              display: ['Playfair Display', 'Georgia', 'serif'],
+              body: ['Inter', 'Calibri', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --gold: #6bb6ff;
+        --gold-soft: #dceeff;
+        --text-muted: #8a8a9a;
+        --success: #00c896;
+        --danger: #ff4d6d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', 'Calibri', sans-serif;
+        background: radial-gradient(circle at 20% 10%, rgba(107, 182, 255, 0.1), transparent 40%),
+          radial-gradient(circle at 80% 80%, rgba(0, 200, 150, 0.06), transparent 35%),
+          var(--bg);
+        color: #fff;
+      }
+
+      .glass {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        border: 1px solid rgba(107, 182, 255, 0.2);
+        backdrop-filter: blur(14px);
+      }
+
+      .elev-card {
+        transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+      }
+
+      .elev-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(107, 182, 255, 0.45);
+        box-shadow: 0 0 0 1px rgba(107, 182, 255, 0.28), 0 14px 36px rgba(107, 182, 255, 0.18);
+      }
+
+      .hero-grid {
+        background-image: linear-gradient(rgba(107, 182, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(107, 182, 255, 0.08) 1px, transparent 1px);
+        background-size: 70px 70px;
+      }
+
+      .floating-orb {
+        position: absolute;
+        border-radius: 9999px;
+        background: radial-gradient(circle at 30% 30%, rgba(220, 238, 255, 0.36), rgba(107, 182, 255, 0.08));
+        filter: blur(0.4px);
+        animation: drift 14s linear infinite;
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+          opacity: 0.2;
+        }
+        50% {
+          transform: translate3d(0, -42px, 0) scale(1.08);
+          opacity: 0.38;
+        }
+        100% {
+          transform: translate3d(0, 0, 0) scale(1);
+          opacity: 0.2;
+        }
+      }
+
+      .shimmer-btn {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shimmer-btn::after {
+        content: '';
+        position: absolute;
+        inset: -150% -40% auto;
+        height: 250%;
+        width: 38%;
+        transform: rotate(18deg) translateX(-180%);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: transform 0.62s ease;
+      }
+
+      .shimmer-btn:hover::after {
+        transform: rotate(18deg) translateX(410%);
+      }
+
+      .scroll-indicator {
+        animation: bounceArrow 1.8s ease-in-out infinite;
+      }
+
+      @keyframes bounceArrow {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.5;
+        }
+        50% {
+          transform: translateY(8px);
+          opacity: 1;
+        }
+      }
+
+      input,
+      select {
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: rgba(107, 182, 255, 0.75);
+        box-shadow: 0 0 0 4px rgba(107, 182, 255, 0.18);
+        outline: none;
+      }
+
+      .signature-canvas {
+        touch-action: none;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden !important;
+        }
+        #monthly-report-print,
+        #monthly-report-print * {
+          visibility: visible !important;
+        }
+        #monthly-report-print {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          margin: 0;
+          padding: 24px;
+          border: none !important;
+          box-shadow: none !important;
+          background: #fff !important;
+        }
+        body {
+          background: #fff !important;
+          color: #000 !important;
+        }
+        .print-report-target p,
+        .print-report-target span,
+        .print-report-target h1,
+        .print-report-target h2,
+        .print-report-target h3,
+        .print-report-target h4,
+        .print-report-target h5,
+        .print-report-target h6,
+        .print-report-target div {
+          color: #000 !important;
+        }
+        .print-report-target .text-gold,
+        .print-report-target .text-softgold {
+          color: #c9a84c !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-base text-white">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo, useRef, useCallback } = React;
+      const { motion, AnimatePresence } = window.Motion;
+      const rechartsLib = window.Recharts || {};
+      const FallbackWrap = ({ children }) => React.createElement('div', { className: 'h-full w-full' }, children);
+      const FallbackNull = () => null;
+      const ResponsiveContainer = rechartsLib.ResponsiveContainer || FallbackWrap;
+      const PieChart = rechartsLib.PieChart || FallbackWrap;
+      const Pie = rechartsLib.Pie || FallbackNull;
+      const Cell = rechartsLib.Cell || FallbackNull;
+      const Tooltip = rechartsLib.Tooltip || FallbackNull;
+      const BarChart = rechartsLib.BarChart || FallbackWrap;
+      const Bar = rechartsLib.Bar || FallbackNull;
+      const XAxis = rechartsLib.XAxis || FallbackNull;
+      const YAxis = rechartsLib.YAxis || FallbackNull;
+      const CartesianGrid = rechartsLib.CartesianGrid || FallbackNull;
+      const LineChart = rechartsLib.LineChart || FallbackWrap;
+      const Line = rechartsLib.Line || FallbackNull;
+      const Legend = rechartsLib.Legend || FallbackNull;
+      const ReferenceDot = rechartsLib.ReferenceDot || FallbackNull;
+      const RadarChart = rechartsLib.RadarChart || FallbackWrap;
+      const PolarGrid = rechartsLib.PolarGrid || FallbackNull;
+      const PolarAngleAxis = rechartsLib.PolarAngleAxis || FallbackNull;
+      const PolarRadiusAxis = rechartsLib.PolarRadiusAxis || FallbackNull;
+      const Radar = rechartsLib.Radar || FallbackNull;
+      const AreaChart = rechartsLib.AreaChart || FallbackWrap;
+      const Area = rechartsLib.Area || FallbackNull;
+
+      const navItems = [
+        { id: 'dashboard', label: 'Client Dashboard' },
+        { id: 'health', label: 'Health Score' },
+      ];
+
+      const quizQuestions = [
+        {
+          id: 'structure',
+          question: 'What is your current business structure?',
+          options: ['Sole Proprietor', 'LLC', 'S-Corp', 'Not Sure'],
+        },
+        {
+          id: 'separation',
+          question: 'Do you currently separate business and personal finances?',
+          options: ['Yes', 'No', 'Partially'],
+        },
+        {
+          id: 'quarterly',
+          question: 'Do you make quarterly estimated tax payments?',
+          options: ['Yes', 'No', "I didn't know I had to"],
+        },
+        {
+          id: 'retirement',
+          question: 'Do you have a dedicated retirement account for your business?',
+          options: ['Yes', 'No', 'Planning to'],
+        },
+        {
+          id: 'reserve',
+          question: 'Do you have 3+ months of expenses saved as a business reserve?',
+          options: ['Yes', 'No', 'Working on it'],
+        },
+      ];
+
+      const taxBrackets2024 = [
+        { cap: 11600, rate: 0.1 },
+        { cap: 47150, rate: 0.12 },
+        { cap: 100525, rate: 0.22 },
+        { cap: 191950, rate: 0.24 },
+      ];
+
+      const standardDeduction = 14600;
+
+      const currency = (value, digits = 0) =>
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: digits,
+        }).format(Number.isFinite(value) ? value : 0);
+
+      const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+      const chartPalette = {
+        axis: '#8A8A9A',
+        primary: '#6BB6FF',
+        secondary: '#9BD7FF',
+        teal: '#00C896',
+        sage: '#2DD4BF',
+        mist: '#F5B700',
+        alert: '#FF4D6D',
+        info: '#FF8A3D',
+      };
+      const mockAuth = {
+        email: 'sarah@mitchellfineart.com',
+        password: 'EverMore2025',
+      };
+      const advisorSeedMessages = [
+        { from: 'Aaron', time: 'Sept 3', text: "Welcome to EverMore, Sarah! Your onboarding is confirmed. We'll have your LLC paperwork filed by Friday. Excited to get started." },
+        { from: 'Sarah', time: 'Sept 3', text: "Thank you so much! This all feels overwhelming but I'm glad I finally have someone in my corner." },
+        { from: 'Aaron', time: 'Sept 3', text: "That's exactly what we're here for. You focus on the art — we handle the rest." },
+        { from: 'Aaron', time: 'Oct 1', text: "Quick heads up — your Q3 estimated tax payment of $2,340 is due October 15th. Your Tax Reserve account has $2,890 so you're fully covered. I'll send you the payment instructions tomorrow." },
+        { from: 'Sarah', time: 'Oct 1', text: 'Perfect, thank you for the reminder! I would have completely forgotten.' },
+        { from: 'Aaron', time: 'Nov 12', text: 'Sarah — just reviewed your October numbers. Revenue was up 23% from September. Your cash reserve is now at 64% of goal. Really strong progress.' },
+        { from: 'Sarah', time: 'Nov 12', text: 'I had a great show in October! Sold 3 originals in one weekend.' },
+        { from: 'Aaron', time: 'Nov 12', text: 'That\'s incredible. With that trajectory we may want to revisit your pricing on originals in our next strategy session. I think you have room to move up.' },
+        { from: 'Aaron', time: 'Dec 1', text: 'Your November financial snapshot is ready in your Document Vault. Also — holiday season reminder: set aside an extra 15% of any revenue above $12,000 this month directly into Tax Reserve. Big months create big tax bills if we\'re not careful.' },
+        { from: 'Sarah', time: 'Dec 2', text: 'Already on it! Best month ever incoming hopefully 🤞' },
+        { from: 'Aaron', time: 'Jan 8', text: 'Happy New Year Sarah! Your annual review is scheduled for January 20th. We\'ll look at your full year numbers, adjust your 2025 strategy, and talk about activating your licensing roadmap. Big year ahead.' },
+      ];
+      const notificationSeed = [
+        { id: 1, level: 'red', title: 'URGENT — 18 days remaining', body: 'Your Q1 2026 estimated tax payment of $2,480 is due January 15th. Your Tax Reserve account currently holds $3,200 — you are fully covered. Click to view payment instructions.', date: 'December 28, 2025', read: false },
+        { id: 2, level: 'yellow', title: 'ACTION RECOMMENDED', body: 'Your original painting inventory has dropped to 4 pieces. Consider scheduling new work or opening a commission waitlist to maintain revenue momentum.', date: 'December 26, 2025', read: false },
+        { id: 3, level: 'green', title: 'MILESTONE REACHED', body: 'Congratulations! Your cash reserve has reached 75% of your 3-month goal. You are on track to reach full reserve by March 2026.', date: 'December 20, 2025', read: false },
+        { id: 4, level: 'green', title: 'DOCUMENT READY', body: 'Your December Monthly Financial Snapshot has been prepared by Aaron Joseph and is available in your Document Vault.', date: 'December 31, 2025', read: false },
+        { id: 5, level: 'yellow', title: 'STRATEGY SESSION', body: 'Your Q1 2026 strategy session with Aaron is scheduled for January 20th at 2:00 PM CST. A calendar invite has been sent to your email.', date: 'December 15, 2025', read: true },
+      ];
+      const logoSrc = './Logo.png';
+
+      const computeFederalTax = (income) => {
+        let taxable = Math.max(0, income);
+        let tax = 0;
+        let previousCap = 0;
+
+        for (const bracket of taxBrackets2024) {
+          if (taxable <= previousCap) break;
+          const taxableAtBracket = Math.min(taxable, bracket.cap) - previousCap;
+          if (taxableAtBracket > 0) {
+            tax += taxableAtBracket * bracket.rate;
+          }
+          previousCap = bracket.cap;
+        }
+
+        if (taxable > taxBrackets2024[taxBrackets2024.length - 1].cap) {
+          tax +=
+            (taxable - taxBrackets2024[taxBrackets2024.length - 1].cap) *
+            taxBrackets2024[taxBrackets2024.length - 1].rate;
+        }
+
+        return tax;
+      };
+
+      const estimateMarginalRate = (taxableIncome) => {
+        if (taxableIncome > 100525) return 0.24;
+        if (taxableIncome > 47150) return 0.22;
+        if (taxableIncome > 11600) return 0.12;
+        return 0.1;
+      };
+
+      const computeTaxScenario = (netProfit, stateRate, structure) => {
+        const profit = Math.max(0, netProfit);
+        const salary = structure === 'scorp' ? profit * 0.4 : 0;
+        const distribution = structure === 'scorp' ? profit - salary : 0;
+        const seTaxBase = structure === 'scorp' ? salary : profit * 0.9235;
+        const seTax = seTaxBase * 0.153;
+        const seTaxDeduction = seTax * 0.5;
+        const taxableFederalIncome = Math.max(0, profit - seTaxDeduction - standardDeduction);
+        const federalTax = computeFederalTax(taxableFederalIncome);
+        const taxableStateIncome = Math.max(0, profit - seTaxDeduction);
+        const stateTax = taxableStateIncome * stateRate;
+        const totalTax = seTax + federalTax + stateTax;
+
+        return {
+          salary,
+          distribution,
+          seTax,
+          seTaxDeduction,
+          taxableFederalIncome,
+          federalTax,
+          stateTax,
+          totalTax,
+          effectiveRate: profit > 0 ? totalTax / profit : 0,
+        };
+      };
+
+      const useCountUp = (value, active, duration = 900) => {
+        const [display, setDisplay] = useState(0);
+
+        useEffect(() => {
+          if (!active) return;
+          let frame;
+          const start = performance.now();
+          const initial = 0;
+
+          const run = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            setDisplay(initial + (value - initial) * progress);
+            if (progress < 1) {
+              frame = requestAnimationFrame(run);
+            }
+          };
+
+          frame = requestAnimationFrame(run);
+          return () => cancelAnimationFrame(frame);
+        }, [value, active, duration]);
+
+        return display;
+      };
+
+      const AnimatedNumber = ({ value, prefix = '$', suffix = '', decimals = 0, className = '' }) => {
+        const ref = useRef(null);
+        const [visible, setVisible] = useState(false);
+        const shown = useCountUp(value, visible, 850);
+
+        useEffect(() => {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                setVisible(true);
+              }
+            },
+            { threshold: 0.25 }
+          );
+
+          if (ref.current) observer.observe(ref.current);
+          return () => observer.disconnect();
+        }, []);
+
+        return (
+          <span ref={ref} className={className}>
+            {prefix}
+            {Number(shown).toLocaleString('en-US', {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals,
+            })}
+            {suffix}
+          </span>
+        );
+      };
+
+      const dashboardSectionItems = [
+        { id: 'dash-sales', icon: '📊', label: 'Sales Performance' },
+        { id: 'dash-snapshot', icon: '🗂️', label: 'Monthly Snapshot' },
+        { id: 'dash-cashflow', icon: '💰', label: 'Cash Flow' },
+        { id: 'dash-tax', icon: '🧾', label: 'Tax Tracker' },
+        { id: 'dash-goals', icon: '🎯', label: 'Goals' },
+        { id: 'dash-vault', icon: '📁', label: 'Document Vault' },
+        { id: 'dash-inventory', icon: '🎨', label: 'Inventory' },
+        { id: 'dash-wealth', icon: '📈', label: 'Wealth Building' },
+        { id: 'dash-health', icon: '⭐', label: 'Health Score' },
+      ];
+
+      const createDashboardDemoData = () => ({
+        clientName: 'Sarah Mitchell',
+        businessName: 'Mitchell Fine Arts',
+        annualRevenueTarget: 120000,
+        monthlyRevenue: 11400,
+        previousMonthRevenue: 9800,
+        salesThisMonth: 14,
+        previousMonthSales: 12,
+        monthlyExpenses: 3800,
+        monthlySalary: 3200,
+        nextQuarterlyPayment: 2200,
+        reserveGoal: 5000,
+        taxSavingsYtd: 9340,
+        solo401kContributed: 18000,
+        solo401kLimit: 69000,
+        healthScore: 71,
+        healthHistory: [
+          { label: 'Onboarding', score: 38 },
+          { label: 'Q2', score: 54 },
+          { label: 'Q3', score: 71 },
+          { label: 'Q4 (Projected)', score: 85 },
+        ],
+        healthCategories: {
+          legalProtection: 15,
+          taxEfficiency: 14,
+          cashFlow: 16,
+          wealthBuilding: 13,
+          diversification: 13,
+        },
+        accountBalances: {
+          operating: 5700,
+          ownerPay: 2850,
+          taxReserve: 1710,
+          profit: 3200,
+        },
+        accountHistory: {
+          operating: [4200, 4600, 4900, 5100, 5400, 5700],
+          ownerPay: [2100, 2200, 2350, 2500, 2700, 2850],
+          taxReserve: [900, 1100, 1300, 1460, 1600, 1710],
+          profit: [1800, 2150, 2400, 2650, 2900, 3200],
+        },
+        revenueCategoryMonth: {
+          paintings: 4300,
+          prints: 2600,
+          sculptures: 1900,
+          digital: 1200,
+          commissions: 1400,
+        },
+        revenueCategoryYear: {
+          paintings: 38200,
+          prints: 22100,
+          sculptures: 16400,
+          digital: 9800,
+          commissions: 20100,
+        },
+        revenuePlatform: {
+          etsy: 2800,
+          shopify: 3400,
+          instagramDirect: 2700,
+          inPersonShows: 1900,
+          other: 600,
+        },
+        monthlyRevenueTrend: [
+          { month: 'Jan', current: 7600, previous: 6200 },
+          { month: 'Feb', current: 8100, previous: 6500 },
+          { month: 'Mar', current: 8600, previous: 6700 },
+          { month: 'Apr', current: 9000, previous: 6900 },
+          { month: 'May', current: 9600, previous: 7100 },
+          { month: 'Jun', current: 9900, previous: 7300 },
+          { month: 'Jul', current: 10400, previous: 7600 },
+          { month: 'Aug', current: 10800, previous: 7800 },
+          { month: 'Sep', current: 11100, previous: 8100 },
+          { month: 'Oct', current: 11400, previous: 8500 },
+          { month: 'Nov', current: 11800, previous: 8800 },
+          { month: 'Dec', current: 12200, previous: 9000 },
+        ],
+        taxBurdenComparison: [
+          { month: 'Jan', before: 1850, after: 1280 },
+          { month: 'Feb', before: 1980, after: 1360 },
+          { month: 'Mar', before: 2020, after: 1410 },
+          { month: 'Apr', before: 2090, after: 1450 },
+          { month: 'May', before: 2140, after: 1490 },
+          { month: 'Jun', before: 2200, after: 1520 },
+          { month: 'Jul', before: 2260, after: 1580 },
+          { month: 'Aug', before: 2300, after: 1610 },
+          { month: 'Sep', before: 2350, after: 1660 },
+          { month: 'Oct', before: 2400, after: 1700 },
+          { month: 'Nov', before: 2460, after: 1730 },
+          { month: 'Dec', before: 2520, after: 1780 },
+        ],
+        deductions: {
+          homeStudio: 2400,
+          artSupplies: 5200,
+          equipmentTech: 3100,
+          travelShows: 1850,
+          marketing: 1450,
+          professionalDev: 980,
+          platformSoftware: 1220,
+        },
+        inventoryRows: [
+          { id: 1, piece: 'Sunset Harbor', category: 'Painting', status: 'Available', price: 1800, dateListed: '2026-01-09', platform: 'Shopify', notes: 'Acrylic on canvas, 24x36' },
+          { id: 2, piece: 'Blue Echo', category: 'Painting', status: 'Available', price: 1600, dateListed: '2026-01-15', platform: 'Etsy', notes: 'Framed' },
+          { id: 3, piece: 'Stillness Study', category: 'Painting', status: 'Reserved', price: 1400, dateListed: '2026-01-17', platform: 'Instagram/Direct', notes: 'Collector hold through Friday' },
+          { id: 4, piece: 'Urban Drift #12', category: 'Print', status: 'Available', price: 95, dateListed: '2026-02-02', platform: 'Shopify', notes: 'Limited run of 75' },
+          { id: 5, piece: 'Marble Tide', category: 'Sculpture', status: 'Available', price: 2400, dateListed: '2026-01-27', platform: 'In-Person / Art Shows', notes: 'Stone composite' },
+          { id: 6, piece: 'Collector Portrait', category: 'Commission', status: 'In Progress', price: 3200, dateListed: '2026-01-20', platform: 'Instagram/Direct', notes: '60% deposit received' },
+          { id: 7, piece: 'Aurora Line Pack', category: 'Digital', status: 'Available', price: 48, dateListed: '2026-01-30', platform: 'Etsy', notes: 'Procreate brushes + textures' },
+          { id: 8, piece: 'Coastline Light', category: 'Sculpture', status: 'Available', price: 2100, dateListed: '2026-02-07', platform: 'Shopify', notes: 'Bronze finish' },
+          { id: 9, piece: 'Golden Grain Series', category: 'Print', status: 'Sold', price: 130, dateListed: '2026-01-11', platform: 'Etsy', notes: 'Sold in batch of 4' },
+          { id: 10, piece: 'Studio Residency', category: 'Commission', status: 'In Progress', price: 2800, dateListed: '2026-02-01', platform: 'Direct', notes: 'Second revision underway' },
+        ],
+        inventoryCounts: {
+          originalPaintings: 6,
+          sculptures: 3,
+          printSkus: 24,
+          commissionsInProgress: 2,
+        },
+        portfolioValue: 22400,
+        monthlyContribution: 500,
+        annualizedReturn: 0.08,
+        passiveStreams: [
+          { id: 'licensing', name: 'Art Licensing Agreement', active: false, est: 350, status: 'Negotiating terms' },
+          { id: 'pod', name: 'Print-on-Demand Automation', active: true, est: 420, status: 'Active with 18 SKUs' },
+          { id: 'digital', name: 'Digital Product Line', active: true, est: 260, status: 'Three bundles live' },
+          { id: 'waitlist', name: 'Commission Waitlist System', active: false, est: 600, status: 'Waitlist page draft ready' },
+        ],
+        deadlines: [
+          { id: 'tax', label: 'Next quarterly estimated tax payment', date: '2026-04-15', amount: 2200 },
+          { id: 'solo401k', label: 'Solo 401(k) contribution deadline', date: '2026-12-31', amount: 0 },
+          { id: 'strategy', label: 'Next EverMore strategy session', date: '2026-03-18', amount: 0 },
+          { id: 'filing', label: 'Annual tax filing deadline', date: '2026-10-15', amount: 0 },
+        ],
+      });
+
+      const EditableValue = ({ value, onSave, formatter = (v) => v, inputClass = '', type = 'number' }) => {
+        const [editing, setEditing] = useState(false);
+        const [draft, setDraft] = useState(value);
+        useEffect(() => setDraft(value), [value]);
+
+        const commit = () => {
+          const parsed = type === 'number' ? Number(draft) || 0 : draft;
+          onSave(parsed);
+          setEditing(false);
+        };
+
+        if (editing) {
+          return (
+            <input
+              autoFocus
+              value={draft}
+              type={type === 'number' ? 'number' : 'text'}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={commit}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') commit();
+                if (e.key === 'Escape') setEditing(false);
+              }}
+              className={`rounded-lg border border-gold/50 bg-base px-2 py-1 text-white ${inputClass}`}
+            />
+          );
+        }
+
+        return (
+          <button onClick={() => setEditing(true)} className="text-left hover:text-softgold">
+            {formatter(value)}
+          </button>
+        );
+      };
+
+      const InventoryEditableCell = ({ value, onSave, type = 'text', options = [] }) => {
+        const [editing, setEditing] = useState(false);
+        const [draft, setDraft] = useState(value);
+        useEffect(() => setDraft(value), [value]);
+
+        const commit = () => {
+          onSave(type === 'number' ? Number(draft) || 0 : draft);
+          setEditing(false);
+        };
+
+        if (!editing) {
+          return (
+            <button onClick={() => setEditing(true)} className="w-full text-left hover:text-softgold">
+              {String(value)}
+            </button>
+          );
+        }
+
+        if (options.length) {
+          return (
+            <select
+              autoFocus
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={commit}
+              className="w-full rounded-lg border border-gold/40 bg-base px-2 py-1 text-white"
+            >
+              {options.map((opt) => (
+                <option key={opt}>{opt}</option>
+              ))}
+            </select>
+          );
+        }
+
+        return (
+          <input
+            autoFocus
+            value={draft}
+            type={type === 'number' ? 'number' : 'text'}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={commit}
+            onKeyDown={(e) => e.key === 'Enter' && commit()}
+            className="w-full rounded-lg border border-gold/40 bg-base px-2 py-1 text-white"
+          />
+        );
+      };
+
+      const SignInScreen = ({
+        email,
+        password,
+        setEmail,
+        setPassword,
+        showPassword,
+        setShowPassword,
+        onSubmit,
+        error,
+        shake,
+        signedOutNotice,
+        loading,
+      }) => (
+        <motion.section
+          className="hero-grid relative flex min-h-screen items-center justify-center overflow-hidden px-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div
+            className="pointer-events-none absolute inset-0 bg-center bg-no-repeat opacity-[0.12]"
+            style={{ backgroundImage: `url(${logoSrc})`, backgroundSize: 'min(72vh, 72vw)' }}
+          />
+          <div className="pointer-events-none absolute inset-0">
+            {Array.from({ length: 22 }).map((_, idx) => (
+              <span
+                key={idx}
+                className="floating-orb"
+                style={{
+                  width: `${10 + (idx % 6) * 9}px`,
+                  height: `${10 + (idx % 6) * 9}px`,
+                  left: `${(idx * 13) % 100}%`,
+                  top: `${(idx * 17) % 100}%`,
+                  animationDelay: `${idx * 0.35}s`,
+                  animationDuration: `${12 + (idx % 5) * 3}s`,
+                }}
+              />
+            ))}
+          </div>
+          <motion.form
+            onSubmit={onSubmit}
+            initial={{ opacity: 0, y: 14 }}
+            animate={shake ? { x: [0, -8, 8, -8, 0], opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            transition={{ duration: shake ? 0.32 : 0.4 }}
+            className={`glass relative z-10 w-full max-w-md rounded-2xl border p-7 shadow-glow ${error ? 'border-danger/60' : 'border-gold/25'}`}
+          >
+            <div className="mb-3 flex justify-center">
+              <img
+                src={logoSrc}
+                alt="EverMore & Company Logo"
+                className="h-16 w-16 rounded-lg border border-white/10 object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+            <h1 className="font-display text-3xl text-gold">EverMore & Company</h1>
+            <p className="mt-1 text-textsoft">Client Portal — Secure Access</p>
+            {signedOutNotice ? <p className="mt-3 text-sm text-softgold">{signedOutNotice}</p> : null}
+            {loading ? (
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="mt-3 text-2xl text-gold"
+              >
+                ✓
+              </motion.div>
+            ) : null}
+            <div className="mt-6 space-y-3">
+              <input
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="Email"
+                className="w-full rounded-xl border border-white/15 bg-base/70 px-4 py-3 text-white"
+              />
+              <div className="relative">
+                <input
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  className="w-full rounded-xl border border-white/15 bg-base/70 px-4 py-3 pr-20 text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-softgold"
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="shimmer-btn w-full rounded-xl bg-gold px-4 py-3 font-semibold disabled:opacity-60"
+                style={{ color: '#0A0A0F' }}
+              >
+                {loading ? 'Signing In...' : 'Sign In'}
+              </button>
+              {error ? <p className="text-sm text-danger">Invalid credentials. Please try again or contact your advisor.</p> : null}
+              <p className="text-xs text-textsoft">Don&apos;t have an account? Contact your advisor.</p>
+              <p className="text-xs text-textsoft">Having trouble signing in? Contact Aaron Joseph directly at (312) 555-0192</p>
+            </div>
+          </motion.form>
+        </motion.section>
+      );
+
+      const SplashScreen = ({ onComplete }) => {
+        const [exiting, setExiting] = useState(false);
+        const loadingDuration = useMemo(() => {
+          const threads = navigator.hardwareConcurrency || 8;
+          return threads <= 4 ? 0.85 : 0.6;
+        }, []);
+
+        useEffect(() => {
+          const previousOverflow = document.documentElement.style.overflow;
+          document.documentElement.style.overflow = 'hidden';
+
+          const exitTimer = setTimeout(() => setExiting(true), 3200);
+          const completeTimer = setTimeout(() => onComplete(), 3700);
+
+          return () => {
+            clearTimeout(exitTimer);
+            clearTimeout(completeTimer);
+            document.documentElement.style.overflow = previousOverflow;
+          };
+        }, [onComplete]);
+
+        return (
+          <section className="fixed inset-0 z-[120] bg-base">
+            <motion.div
+              className="flex min-h-screen items-center justify-center px-6 text-center"
+              animate={{ opacity: exiting ? 0 : 1 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3, duration: 0.55, ease: 'easeOut' }}
+                  className="font-display text-[52px] text-gold"
+                  style={{ letterSpacing: '0.15em' }}
+                >
+                  EverMore &amp; Company
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7, duration: 0.4, ease: 'easeOut' }}
+                  className="mt-2 text-[16px]"
+                  style={{ color: '#9BD7FF', letterSpacing: '0.35em' }}
+                >
+                  Financial Group
+                </motion.p>
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 120, opacity: 1 }}
+                  transition={{ delay: 2.1, duration: 0.4, ease: 'easeOut' }}
+                  className="mx-auto mt-10 h-px bg-[#C9A84C]"
+                />
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 2.55, duration: 0.35, ease: 'easeOut' }}
+                  className="mt-4 text-[13px] italic"
+                  style={{ color: '#8A8A9A' }}
+                >
+                  We protect what you&apos;ve built — and grow what&apos;s possible.
+                </motion.p>
+              </div>
+            </motion.div>
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1C1C24]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: exiting ? 0 : 1 }}
+              transition={exiting ? { duration: 0.5, ease: 'easeOut' } : { delay: 2.6, duration: 0.1 }}
+            >
+              <motion.div
+                className="h-full bg-[#C9A84C]"
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ delay: 2.6, duration: loadingDuration, ease: 'linear' }}
+              />
+            </motion.div>
+          </section>
+        );
+      };
+
+      const SectionShell = ({ id, eyebrow, title, subtitle, children }) => (
+        <motion.section
+          id={id}
+          className="min-h-screen px-4 py-24 md:px-12 lg:px-20"
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ amount: 0.18, once: false }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10">
+              {eyebrow ? <p className="mb-3 text-sm tracking-[0.18em] text-softgold">{eyebrow}</p> : null}
+              <h2 className="font-display text-4xl text-white md:text-5xl">{title}</h2>
+              {subtitle ? <p className="mt-4 max-w-3xl text-lg text-textsoft">{subtitle}</p> : null}
+            </div>
+            {children}
+          </div>
+        </motion.section>
+      );
+
+      const Gauge = ({ score }) => {
+        const size = 210;
+        const stroke = 16;
+        const radius = (size - stroke) / 2;
+        const circumference = radius * 2 * Math.PI;
+        const progress = circumference - (score / 100) * circumference;
+
+        return (
+          <div className="relative h-[210px] w-[210px]">
+            <svg width={size} height={size}>
+              <circle
+                cx={size / 2}
+                cy={size / 2}
+                r={radius}
+                fill="none"
+                stroke="rgba(255,255,255,0.12)"
+                strokeWidth={stroke}
+              />
+              <motion.circle
+                cx={size / 2}
+                cy={size / 2}
+                r={radius}
+                fill="none"
+                stroke="url(#goldGradient)"
+                strokeWidth={stroke}
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset: progress }}
+                transition={{ duration: 1.1, ease: 'easeOut' }}
+                transform={`rotate(-90 ${size / 2} ${size / 2})`}
+              />
+              <defs>
+                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor={chartPalette.mist} />
+                  <stop offset="100%" stopColor={chartPalette.primary} />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="text-center">
+                <div className="text-5xl font-extrabold text-gold">{Math.round(score)}</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-textsoft">Health Score</div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const App = () => {
+        const splashShownRef = useRef(false);
+        const [showSplash, setShowSplash] = useState(() => !splashShownRef.current);
+        const [activeSection, setActiveSection] = useState('hero');
+
+        const [stateTaxRate] = useState(5);
+
+        const [quizIndex, setQuizIndex] = useState(0);
+        const [quizAnswers, setQuizAnswers] = useState(Array(quizQuestions.length).fill(''));
+        const [quizComplete, setQuizComplete] = useState(false);
+
+        const [dashboardData, setDashboardData] = useState(createDashboardDemoData);
+        const [dashboardCategoryView, setDashboardCategoryView] = useState('month');
+        const [activeDashboardSection, setActiveDashboardSection] = useState('dash-sales');
+        const [nextInventoryId, setNextInventoryId] = useState(11);
+        const [taxActionChecks, setTaxActionChecks] = useState({});
+        const [authEmail, setAuthEmail] = useState('');
+        const [authPassword, setAuthPassword] = useState('');
+        const [showPassword, setShowPassword] = useState(false);
+        const [authError, setAuthError] = useState('');
+        const [authShake, setAuthShake] = useState(false);
+        const [isAuthenticated, setIsAuthenticated] = useState(false);
+        const [authLoading, setAuthLoading] = useState(false);
+        const [signedOutNotice, setSignedOutNotice] = useState('');
+        const [showUserMenu, setShowUserMenu] = useState(false);
+        const [showNotifications, setShowNotifications] = useState(false);
+        const [notifications, setNotifications] = useState(notificationSeed);
+        const [chatOpen, setChatOpen] = useState(false);
+        const [chatUnread, setChatUnread] = useState(3);
+        const [chatMessages, setChatMessages] = useState(advisorSeedMessages);
+        const [chatInput, setChatInput] = useState('');
+        const [chatTyping, setChatTyping] = useState(false);
+        const [vaultSearch, setVaultSearch] = useState('');
+        const [vaultOpen, setVaultOpen] = useState({ legal: true, tax: true, strategy: true });
+        const [goals, setGoals] = useState([
+          { id: 'revenue', title: 'Reach $150,000 Annual Revenue', current: 124600, target: 150000, pct: 83, date: 'December 31, 2025', status: 'On Track', statusColor: 'green', note: '' },
+          { id: 'reserve', title: 'Build 3-Month Cash Reserve ($18,000)', current: 14040, target: 18000, pct: 78, date: 'March 2026', status: 'On Track', statusColor: 'green', note: 'Projected completion: March 2026 at current 10% contribution.' },
+          { id: 'solo401k', title: 'Max Solo 401(k) Contribution ($69,000)', current: 18000, target: 69000, pct: 26, date: 'December 31, 2025', status: 'Needs Attention', statusColor: 'yellow', note: 'Increase monthly contribution to $4,250 to reach the annual maximum.' },
+          { id: 'passive', title: 'Activate 2 Passive Income Streams', current: 1, target: 2, pct: 50, date: 'June 2026', status: 'In Progress', statusColor: 'yellow', note: 'Print-on-Demand active ($840/month); Licensing targeted at $500/month.' },
+          { id: 'health', title: 'Reach Health Score of 90/100', current: 71, target: 100, pct: 71, date: 'December 2026', status: 'On Track', statusColor: 'green', note: 'Score trend: 38 → 54 → 71 → 90 projected.' },
+        ]);
+        const [goalCelebration, setGoalCelebration] = useState(false);
+
+        const scrollToSection = useCallback((id) => {
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, []);
+
+        useEffect(() => {
+          const sections = ['hero', 'dashboard', 'health']
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  setActiveSection(entry.target.id);
+                }
+              });
+            },
+            { rootMargin: '-35% 0px -40% 0px', threshold: 0.2 }
+          );
+
+          sections.forEach((section) => observer.observe(section));
+          return () => observer.disconnect();
+        }, []);
+
+        useEffect(() => {
+          const sectionIds = dashboardSectionItems.map((item) => item.id);
+          const headerOffset = 132;
+          let sections = [];
+
+          const collectSections = () =>
+            sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+          const syncActiveDashboardSection = () => {
+            if (!sections.length) {
+              sections = collectSections();
+              if (!sections.length) return;
+            }
+
+            const dashboardTop = document.getElementById('dashboard')?.getBoundingClientRect().top ?? 0;
+            if (dashboardTop > headerOffset) {
+              setActiveDashboardSection('dash-sales');
+              return;
+            }
+
+            const marker = window.scrollY + headerOffset;
+            let activeId = sections[0].id;
+            sections.forEach((section) => {
+              if (section.offsetTop <= marker) activeId = section.id;
+            });
+
+            setActiveDashboardSection((prev) => (prev === activeId ? prev : activeId));
+          };
+
+          sections = collectSections();
+          syncActiveDashboardSection();
+          window.addEventListener('scroll', syncActiveDashboardSection, { passive: true });
+          window.addEventListener('resize', syncActiveDashboardSection);
+
+          return () => {
+            window.removeEventListener('scroll', syncActiveDashboardSection);
+            window.removeEventListener('resize', syncActiveDashboardSection);
+          };
+        }, []);
+        useEffect(() => {
+          if (chatOpen) setChatUnread(0);
+        }, [chatOpen]);
+
+        const quizScore = useMemo(() => {
+          if (!quizComplete) return 0;
+          const scoreMap = {
+            structure: {
+              'S-Corp': 20,
+              LLC: 14,
+              'Sole Proprietor': 8,
+              'Not Sure': 4,
+            },
+            separation: { Yes: 20, Partially: 12, No: 4 },
+            quarterly: { Yes: 20, No: 5, "I didn't know I had to": 1 },
+            retirement: { Yes: 20, 'Planning to': 12, No: 4 },
+            reserve: { Yes: 20, 'Working on it': 12, No: 4 },
+          };
+
+          return quizQuestions.reduce((total, q, idx) => {
+            const answer = quizAnswers[idx];
+            return total + (scoreMap[q.id][answer] || 0);
+          }, 0);
+        }, [quizAnswers, quizComplete]);
+
+        const quizGrade = useMemo(() => {
+          if (quizScore >= 90) return 'A';
+          if (quizScore >= 80) return 'B';
+          if (quizScore >= 70) return 'C';
+          if (quizScore >= 60) return 'D';
+          return 'F';
+        }, [quizScore]);
+
+        const recommendations = useMemo(() => {
+          if (!quizComplete) return [];
+          const recs = [];
+
+          if (['Sole Proprietor', 'Not Sure'].includes(quizAnswers[0])) {
+            recs.push({
+              pillar: 'Tax Strategy',
+              title: 'Upgrade Entity Strategy',
+              text: 'Move to an S-Corp LLC structure and align compensation to reduce payroll exposure while staying compliant.',
+            });
+          }
+
+          if (['No', 'Partially'].includes(quizAnswers[1])) {
+            recs.push({
+              pillar: 'Cash Flow',
+              title: 'Separate Every Dollar by Purpose',
+              text: 'Implement operating, owner pay, tax reserve, and profit accounts to build consistency and reduce cash stress.',
+            });
+          }
+
+          if (['No', "I didn't know I had to"].includes(quizAnswers[2])) {
+            recs.push({
+              pillar: 'Risk Protection',
+              title: 'Automate Quarterly Tax Payments',
+              text: 'Set a recurring reserve schedule and payment calendar so you never get surprised by underpayment penalties.',
+            });
+          }
+
+          if (['No', 'Planning to'].includes(quizAnswers[3])) {
+            recs.push({
+              pillar: 'Wealth Growth',
+              title: 'Launch Your Solo 401(k)',
+              text: 'Capture tax-advantaged retirement contributions and reinvest the tax savings into long-term portfolio growth.',
+            });
+          }
+
+          if (['No', 'Working on it'].includes(quizAnswers[4])) {
+            recs.push({
+              pillar: 'Cash Flow',
+              title: 'Build a 6-Month Reserve System',
+              text: 'Start with a fixed monthly profit transfer until your reserve fully covers six months of business overhead.',
+            });
+          }
+
+          return recs.slice(0, 3);
+        }, [quizAnswers, quizComplete]);
+
+        const dashboardRevenueByCategory = dashboardCategoryView === 'month'
+          ? dashboardData.revenueCategoryMonth
+          : dashboardData.revenueCategoryYear;
+
+        const revenueCategoryChartData = [
+          { name: 'Original Paintings', key: 'paintings', value: dashboardRevenueByCategory.paintings, color: chartPalette.primary },
+          { name: 'Prints', key: 'prints', value: dashboardRevenueByCategory.prints, color: chartPalette.mist },
+          { name: 'Sculptures', key: 'sculptures', value: dashboardRevenueByCategory.sculptures, color: chartPalette.teal },
+          { name: 'Digital Downloads', key: 'digital', value: dashboardRevenueByCategory.digital, color: chartPalette.secondary },
+          { name: 'Commissions', key: 'commissions', value: dashboardRevenueByCategory.commissions, color: chartPalette.info },
+        ];
+
+        const revenuePlatformChartData = [
+          { name: 'Etsy', value: dashboardData.revenuePlatform.etsy, color: chartPalette.primary },
+          { name: 'Shopify', value: dashboardData.revenuePlatform.shopify, color: chartPalette.mist },
+          { name: 'Instagram/Direct', value: dashboardData.revenuePlatform.instagramDirect, color: chartPalette.teal },
+          { name: 'In-Person / Art Shows', value: dashboardData.revenuePlatform.inPersonShows, color: chartPalette.info },
+          { name: 'Other', value: dashboardData.revenuePlatform.other, color: chartPalette.axis },
+        ];
+
+        const dashboardAverageSaleValue = dashboardData.salesThisMonth > 0
+          ? dashboardData.monthlyRevenue / dashboardData.salesThisMonth
+          : 0;
+        const dashboardRevenueDeltaPct = dashboardData.previousMonthRevenue > 0
+          ? ((dashboardData.monthlyRevenue - dashboardData.previousMonthRevenue) / dashboardData.previousMonthRevenue) * 100
+          : 0;
+        const dashboardSalesDeltaPct = dashboardData.previousMonthSales > 0
+          ? ((dashboardData.salesThisMonth - dashboardData.previousMonthSales) / dashboardData.previousMonthSales) * 100
+          : 0;
+        const bestMonthEver = Math.max(...dashboardData.monthlyRevenueTrend.map((row) => row.current));
+        const reserveCurrent = dashboardData.accountBalances.profit;
+        const reserveTarget = Math.max(1, dashboardData.reserveGoal);
+        const reserveStatusPct = clamp((reserveCurrent / reserveTarget) * 100, 0, 100);
+        const summaryBarData = [
+          { label: 'Total Revenue This Month', value: currency(dashboardData.monthlyRevenue) },
+          { label: 'Total Sales This Month', value: `${dashboardData.salesThisMonth}` },
+          { label: 'Cash Reserve Status', value: `${reserveStatusPct.toFixed(0)}%` },
+          { label: 'Tax Savings YTD', value: currency(dashboardData.taxSavingsYtd) },
+        ];
+
+        const accountCards = [
+          {
+            key: 'operating',
+            label: 'Operating Account',
+            purpose: 'Covers monthly production and business operations.',
+            target: dashboardData.monthlyExpenses * 2,
+            color: chartPalette.primary,
+          },
+          {
+            key: 'ownerPay',
+            label: 'Owner Pay Account',
+            purpose: 'Stabilizes your take-home income every month.',
+            target: dashboardData.monthlySalary,
+            color: chartPalette.teal,
+          },
+          {
+            key: 'taxReserve',
+            label: 'Tax Reserve Account',
+            purpose: 'Funds your next quarterly estimated payment.',
+            target: dashboardData.nextQuarterlyPayment,
+            color: chartPalette.alert,
+          },
+          {
+            key: 'profit',
+            label: 'Profit Account',
+            purpose: 'Builds your 3-month reserve and strategic cushion.',
+            target: dashboardData.monthlyExpenses * 3,
+            color: chartPalette.info,
+          },
+        ];
+
+        const deadlinesWithUrgency = dashboardData.deadlines.map((item) => {
+          const days = Math.ceil((new Date(item.date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+          const urgency = days <= 30 ? 'red' : days <= 90 ? 'yellow' : 'green';
+          return { ...item, days, urgency };
+        });
+
+        const deductionsData = [
+          { key: 'homeStudio', label: 'Home Studio', icon: '🏠' },
+          { key: 'artSupplies', label: 'Art Supplies & Materials', icon: '🖌️' },
+          { key: 'equipmentTech', label: 'Equipment & Technology', icon: '💻' },
+          { key: 'travelShows', label: 'Travel & Shows', icon: '✈️' },
+          { key: 'marketing', label: 'Marketing & Advertising', icon: '📣' },
+          { key: 'professionalDev', label: 'Professional Development', icon: '📚' },
+          { key: 'platformSoftware', label: 'Platform & Software Fees', icon: '🧰' },
+        ];
+
+        const deductionsTotal = deductionsData.reduce((sum, row) => sum + (dashboardData.deductions[row.key] || 0), 0);
+        const annualizedRevenue = dashboardData.monthlyRevenue * 12;
+        const projectedNetProfit = Math.max(0, annualizedRevenue - dashboardData.monthlyExpenses * 12);
+        const projectedSoleTaxes = computeTaxScenario(projectedNetProfit, stateTaxRate / 100, 'sole');
+        const projectedScorpTaxes = computeTaxScenario(projectedNetProfit, stateTaxRate / 100, 'scorp');
+        const estimatedAnnualTaxSplit = {
+          federal: projectedScorpTaxes.federalTax,
+          se: projectedScorpTaxes.seTax,
+          state: projectedScorpTaxes.stateTax,
+          total: projectedScorpTaxes.totalTax,
+          soleTotal: projectedSoleTaxes.totalTax,
+        };
+
+        const monthlyNeeded401k = Math.max(
+          0,
+          (dashboardData.solo401kLimit - dashboardData.solo401kContributed) /
+            Math.max(1, 12 - new Date().getMonth())
+        );
+        const soloTaxImpact = dashboardData.solo401kContributed * (estimateMarginalRate(projectedScorpTaxes.taxableFederalIncome) + stateTaxRate / 100);
+
+        const soldThisMonth = dashboardData.inventoryRows.filter((row) => row.status === 'Sold').length;
+        const inventoryValue = dashboardData.inventoryRows
+          .filter((row) => row.status === 'Available' || row.status === 'Reserved')
+          .reduce((sum, row) => sum + Number(row.price || 0), 0);
+        const originalCount = dashboardData.inventoryRows.filter((row) => row.category === 'Painting' && row.status === 'Available').length;
+        const sculptureCount = dashboardData.inventoryRows.filter((row) => row.category === 'Sculpture' && row.status === 'Available').length;
+
+        const bestSellerRank = [...revenueCategoryChartData]
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 3);
+
+        const portfolioGrowthData = useMemo(() => {
+          const months = [];
+          let balance = 12000;
+          for (let i = 0; i <= 36; i += 1) {
+            balance = balance * (1 + dashboardData.annualizedReturn / 12) + dashboardData.monthlyContribution;
+            months.push({
+              month: i,
+              actual: i <= 6 ? balance : null,
+              projected: balance,
+            });
+          }
+          return months;
+        }, [dashboardData.annualizedReturn, dashboardData.monthlyContribution]);
+
+        const milestone12 = portfolioGrowthData.find((row) => row.month === 12)?.projected || 0;
+        const milestone24 = portfolioGrowthData.find((row) => row.month === 24)?.projected || 0;
+        const milestone36 = portfolioGrowthData.find((row) => row.month === 36)?.projected || 0;
+        const passiveIncomeTotal = dashboardData.passiveStreams
+          .filter((item) => item.active)
+          .reduce((sum, item) => sum + item.est, 0);
+
+        const healthRadarData = [
+          { subject: 'Legal Protection', score: dashboardData.healthCategories.legalProtection },
+          { subject: 'Tax Efficiency', score: dashboardData.healthCategories.taxEfficiency },
+          { subject: 'Cash Flow', score: dashboardData.healthCategories.cashFlow },
+          { subject: 'Wealth Building', score: dashboardData.healthCategories.wealthBuilding },
+          { subject: 'Revenue Diversification', score: dashboardData.healthCategories.diversification },
+        ];
+
+        const lowestHealthCategory = Object.entries(dashboardData.healthCategories).sort((a, b) => a[1] - b[1])[0]?.[0] || 'taxEfficiency';
+        const nextStepTemplates = {
+          legalProtection: ['Finalize S-Corp compliance binder', 'Confirm liability policy limits', 'Document owner compensation policy'],
+          taxEfficiency: ['Capture recurring deductions monthly', 'Automate quarterly estimate transfers', 'Review payroll ratio this quarter'],
+          cashFlow: ['Move to four-account sweep weekly', 'Enforce owner pay floor', 'Set reserve transfer automation'],
+          wealthBuilding: ['Increase monthly investment transfer', 'Raise Solo 401(k) contribution', 'Review portfolio allocation policy'],
+          diversification: ['Launch licensing outreach', 'Expand digital product bundle', 'Activate commission waitlist funnel'],
+        };
+        const nextSteps = nextStepTemplates[lowestHealthCategory];
+        const forecastData = [
+          ...dashboardData.monthlyRevenueTrend.map((row) => ({ label: row.month, actual: row.current, projected: null, low: null, high: null })),
+          { label: 'Jan 26', actual: null, projected: 9200, low: 8280, high: 10120 },
+          { label: 'Feb 26', actual: null, projected: 10100, low: 9090, high: 11110 },
+          { label: 'Mar 26', actual: null, projected: 12400, low: 11160, high: 13640 },
+        ];
+        const vaultDocs = {
+          legal: [
+            { name: 'LLC Formation Certificate — Mitchell Fine Arts LLC', date: 'Issued Sept 12, 2025', status: 'Active' },
+            { name: 'S-Corp Election Confirmation (IRS Form 2553)', date: 'Filed Sept 18, 2025', status: 'Accepted' },
+            { name: 'EIN Confirmation Letter', date: 'Issued Sept 10, 2025', status: 'Complete' },
+            { name: 'Operating Agreement — Mitchell Fine Arts LLC', date: 'Drafted Sept 15, 2025', status: 'Complete' },
+            { name: 'Business Banking Setup Confirmation', date: 'Sept 20, 2025', status: 'Complete' },
+          ],
+          tax: [
+            { name: 'Q3 2025 Estimated Tax Payment Summary', date: 'Oct 1, 2025', status: 'Complete' },
+            { name: 'Q4 2025 Estimated Tax Payment Summary', date: 'Dec 28, 2025', status: 'Complete' },
+            { name: 'October 2025 Monthly Financial Snapshot', date: 'Nov 1, 2025', status: 'Complete' },
+            { name: 'November 2025 Monthly Financial Snapshot', date: 'Dec 1, 2025', status: 'Complete' },
+            { name: 'December 2025 Monthly Financial Snapshot', date: 'Dec 31, 2025', status: 'Complete' },
+            { name: '2025 Deduction Capture Summary (YTD)', date: 'Dec 31, 2025', status: 'Complete' },
+            { name: 'Solo 401(k) Establishment Confirmation', date: 'Oct 5, 2025', status: 'Complete' },
+          ],
+          strategy: [
+            { name: 'Initial Financial Health Report', date: 'Sept 5, 2025', status: 'Complete' },
+            { name: '90-Day Financial Transformation Plan', date: 'Sept 8, 2025', status: 'Complete' },
+            { name: 'Pricing Audit Results & Recommendations', date: 'Nov 15, 2025', status: 'Complete' },
+            { name: 'Revenue Diversification Roadmap', date: 'Oct 20, 2025', status: 'Complete' },
+            { name: 'Q1 2026 Strategy Session Agenda', date: 'Dec 28, 2025', status: 'Upcoming' },
+            { name: '2026 Investment Policy Statement', date: 'Dec 15, 2025', status: 'Complete' },
+          ],
+        };
+
+        const updateDashboardField = (field, value) => {
+          setDashboardData((prev) => ({ ...prev, [field]: value }));
+        };
+
+        const updateDashboardNested = (root, key, value) => {
+          setDashboardData((prev) => ({ ...prev, [root]: { ...prev[root], [key]: value } }));
+        };
+
+        const updateInventoryRow = (id, key, value) => {
+          setDashboardData((prev) => ({
+            ...prev,
+            inventoryRows: prev.inventoryRows.map((row) => (row.id === id ? { ...row, [key]: value } : row)),
+          }));
+        };
+
+        const addInventoryRow = () => {
+          const row = {
+            id: nextInventoryId,
+            piece: 'New Untitled Piece',
+            category: 'Painting',
+            status: 'Available',
+            price: 0,
+            dateListed: new Date().toISOString().slice(0, 10),
+            platform: 'Shopify',
+            notes: '',
+          };
+          setNextInventoryId((prev) => prev + 1);
+          setDashboardData((prev) => ({ ...prev, inventoryRows: [...prev.inventoryRows, row] }));
+        };
+
+        const markAsSold = (id) => {
+          updateInventoryRow(id, 'status', 'Sold');
+        };
+
+        const resetDemoData = () => {
+          setDashboardData(createDashboardDemoData());
+          setTaxActionChecks({});
+        };
+
+        const toggleActionItem = (label) => {
+          setTaxActionChecks((prev) => {
+            const next = { ...prev, [label]: !prev[label] };
+            const allChecked = nextSteps.every((item) => next[item]);
+            if (allChecked) {
+              setDashboardData((current) => {
+                const bump = Math.min(20, current.healthCategories[lowestHealthCategory] + 3);
+                const nextCategories = { ...current.healthCategories, [lowestHealthCategory]: bump };
+                const total = Object.values(nextCategories).reduce((sum, n) => sum + n, 0);
+                return {
+                  ...current,
+                  healthCategories: nextCategories,
+                  healthScore: total,
+                };
+              });
+            }
+            return next;
+          });
+        };
+        const unreadNotificationCount = notifications.filter((n) => !n.read).length;
+        const markNotificationRead = (id) => {
+          setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        };
+        const dismissNotification = (id) => {
+          setNotifications((prev) => prev.filter((n) => n.id !== id));
+        };
+        const markAllNotificationsRead = () => {
+          setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+        };
+        const sendChatMessage = () => {
+          const msg = chatInput.trim();
+          if (!msg) return;
+          const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+          setChatMessages((prev) => [...prev, { from: 'You', time: now, text: msg }]);
+          setChatInput('');
+          setTimeout(() => {
+            setChatTyping(true);
+            setTimeout(() => {
+              setChatTyping(false);
+              const responseTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+              setChatMessages((prev) => [
+                ...prev,
+                { from: 'Aaron', time: responseTime, text: 'Hi Sarah, thank you for your message. Aaron is currently busy and will get back to you within 24 hours.' },
+              ]);
+            }, 1500);
+          }, 2000);
+        };
+        const updateGoalProgress = (id, value) => {
+          const nextPct = clamp(Number(value) || 0, 0, 100);
+          setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, pct: nextPct } : g)));
+          if (nextPct === 100) {
+            setGoalCelebration(true);
+          }
+        };
+
+        const handleQuizAnswer = (answer) => {
+          const next = [...quizAnswers];
+          next[quizIndex] = answer;
+          setQuizAnswers(next);
+
+          if (quizIndex < quizQuestions.length - 1) {
+            setQuizIndex((prev) => prev + 1);
+          } else {
+            setQuizComplete(true);
+          }
+        };
+
+        const resetQuiz = () => {
+          setQuizIndex(0);
+          setQuizAnswers(Array(quizQuestions.length).fill(''));
+          setQuizComplete(false);
+        };
+
+        const handleSignIn = (event) => {
+          event.preventDefault();
+          setAuthError('');
+          const valid =
+            authEmail.trim().toLowerCase() === mockAuth.email &&
+            authPassword === mockAuth.password;
+          if (!valid) {
+            setAuthPassword('');
+            setAuthError('invalid');
+            setAuthShake(true);
+            setTimeout(() => setAuthShake(false), 340);
+            return;
+          }
+          setAuthLoading(true);
+          setTimeout(() => {
+            setAuthLoading(false);
+            setIsAuthenticated(true);
+            setSignedOutNotice('');
+            setAuthError('');
+            setShowUserMenu(false);
+          }, 500);
+        };
+
+        const handleSignOut = () => {
+          setIsAuthenticated(false);
+          setShowUserMenu(false);
+          setAuthEmail('');
+          setAuthPassword('');
+          setShowPassword(false);
+          setAuthError('');
+          setSignedOutNotice('You have been signed out securely.');
+        };
+
+        const handleSplashComplete = () => {
+          splashShownRef.current = true;
+          setShowSplash(false);
+        };
+
+        if (!isAuthenticated) {
+          if (showSplash) {
+            return <SplashScreen onComplete={handleSplashComplete} />;
+          }
+          return (
+            <SignInScreen
+              email={authEmail}
+              password={authPassword}
+              setEmail={setAuthEmail}
+              setPassword={setAuthPassword}
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+              onSubmit={handleSignIn}
+              error={authError}
+              shake={authShake}
+              signedOutNotice={signedOutNotice}
+              loading={authLoading}
+            />
+          );
+        }
+
+        return (
+          <motion.div className="bg-base text-white" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
+            <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-base/55 backdrop-blur-lg">
+              <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+                <button
+                  className="flex items-center gap-2 font-display text-lg font-bold tracking-wide text-gold md:text-xl"
+                  onClick={() => scrollToSection('hero')}
+                >
+                  <img
+                    src={logoSrc}
+                    alt="EverMore & Company Logo"
+                    className="h-8 w-8 rounded-md border border-white/10 object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                  EverMore & Company
+                </button>
+                <nav className="hidden items-center gap-6 lg:flex">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`text-sm transition-colors ${
+                        activeSection === item.id ? 'text-gold' : 'text-textsoft hover:text-softgold'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+                <div className="relative flex items-center gap-2">
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowNotifications((v) => !v)}
+                      className="relative rounded-lg border border-gold/45 bg-gold/15 px-3 py-2 text-sm font-semibold text-softgold hover:shadow-glow"
+                    >
+                      🔔
+                      {unreadNotificationCount > 0 ? (
+                        <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-gold text-[10px] font-bold text-base">
+                          {Math.min(unreadNotificationCount, 9)}
+                        </span>
+                      ) : null}
+                    </button>
+                    {showNotifications ? (
+                      <div className="absolute right-0 z-50 mt-2 w-[420px] rounded-2xl border border-gold/30 bg-surface/95 p-3 backdrop-blur">
+                        <div className="mb-2 flex items-center justify-between border-b border-white/10 pb-2">
+                          <p className="font-semibold text-gold">Notifications</p>
+                          <button onClick={markAllNotificationsRead} className="text-xs text-softgold">Mark all as read</button>
+                        </div>
+                        <div className="max-h-80 space-y-2 overflow-y-auto pr-1">
+                          {notifications.length ? notifications.map((n) => (
+                            <div key={n.id} className={`rounded-xl border px-3 py-2 ${n.read ? 'border-white/10 opacity-60' : 'border-gold/20'}`}>
+                              <div className="flex items-start justify-between gap-2">
+                                <button onClick={() => markNotificationRead(n.id)} className="text-left">
+                                  <p className="text-sm font-semibold text-white">
+                                    <span className={`mr-2 inline-block h-2 w-2 rounded-full ${n.level === 'red' ? 'bg-danger' : n.level === 'yellow' ? 'bg-yellow-400' : 'bg-success'}`} />
+                                    {n.title}
+                                  </p>
+                                  <p className="mt-1 text-xs text-textsoft">{n.body}</p>
+                                  <p className="mt-1 text-[11px] text-textsoft">{n.date}</p>
+                                </button>
+                                <button onClick={() => dismissNotification(n.id)} className="text-xs text-textsoft">✕</button>
+                              </div>
+                            </div>
+                          )) : (
+                            <div className="grid place-items-center py-8 text-center text-textsoft">
+                              <div className="text-2xl text-gold">✓</div>
+                              <p>You&apos;re all caught up</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowUserMenu((v) => !v)}
+                      className="flex items-center gap-2 rounded-lg border border-gold/45 bg-gold/15 px-3 py-2 text-sm font-semibold text-softgold"
+                    >
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-gold text-xs font-bold text-base">SM</span>
+                      <span>Sarah Mitchell</span>
+                    </button>
+                    {showUserMenu ? (
+                      <div className="absolute right-0 mt-2 w-40 rounded-xl border border-white/10 bg-surface p-2 shadow-lg">
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full rounded-lg px-3 py-2 text-left text-sm text-textsoft hover:bg-white/5 hover:text-softgold"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                  <button
+                    onClick={resetDemoData}
+                    title="Reset demo values"
+                    aria-label="Reset demo values"
+                    className="grid h-9 w-9 place-items-center rounded-full border border-gold/45 bg-base text-sm text-gold transition hover:bg-gold/10"
+                  >
+                    ⏻
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            <motion.section
+              id="hero"
+              className="hero-grid relative flex min-h-screen items-center justify-center overflow-hidden px-4 pt-24 text-center md:px-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="pointer-events-none absolute inset-0">
+                {Array.from({ length: 22 }).map((_, idx) => (
+                  <span
+                    key={idx}
+                    className="floating-orb"
+                    style={{
+                      width: `${10 + (idx % 6) * 9}px`,
+                      height: `${10 + (idx % 6) * 9}px`,
+                      left: `${(idx * 13) % 100}%`,
+                      top: `${(idx * 17) % 100}%`,
+                      animationDelay: `${idx * 0.35}s`,
+                      animationDuration: `${12 + (idx % 5) * 3}s`,
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="relative z-10 mx-auto max-w-4xl">
+                <h1 className="mt-4 font-display text-5xl font-bold leading-tight text-gold md:text-7xl">
+                  EverMore & Company
+                </h1>
+                <p className="mx-auto mt-5 max-w-3xl text-lg text-textsoft md:text-2xl">
+                  Private Client Portal — Financial Command Center
+                </p>
+                <p className="mx-auto mt-4 max-w-2xl text-base text-softgold/90">
+                  Welcome to your centralized financial view for cash flow, tax strategy, wealth tracking, and business performance.
+                </p>
+
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                  <button
+                    onClick={() => scrollToSection('dashboard')}
+                    className="shimmer-btn rounded-xl bg-gold px-6 py-3 font-semibold text-base"
+                    style={{ color: '#0A0A0F' }}
+                  >
+                    Go to My Dashboard
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('health')}
+                    className="rounded-xl border border-softgold/50 bg-surface/80 px-6 py-3 font-semibold text-softgold transition hover:border-gold"
+                  >
+                    View My Health Score
+                  </button>
+                </div>
+
+                <div className="mt-14 text-textsoft">
+                  <button onClick={() => scrollToSection('dashboard')} className="scroll-indicator text-sm">
+                    <div>Scroll to Explore</div>
+                    <div className="mt-1 text-2xl text-softgold">↓</div>
+                  </button>
+                </div>
+              </div>
+            </motion.section>
+
+            <section id="dashboard" className="min-h-screen px-3 pb-24 pt-28 md:px-6 lg:px-10">
+              <div className="mx-auto max-w-[1500px] lg:grid lg:grid-cols-[250px,1fr] lg:gap-6">
+                <aside className="no-print hidden lg:block">
+                  <div className="glass sticky top-24 rounded-2xl p-4">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={logoSrc}
+                        alt="EverMore & Company Logo"
+                        className="h-8 w-8 rounded-md border border-white/10 object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                      <p className="font-display text-2xl text-gold">EverMore</p>
+                    </div>
+                    <p className="text-xs uppercase tracking-[0.16em] text-textsoft">Client Dashboard</p>
+                    <div className="mt-6 space-y-2">
+                      {dashboardSectionItems.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => scrollToSection(item.id)}
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm transition ${
+                            activeDashboardSection === item.id ? 'bg-gold/20 text-gold' : 'text-textsoft hover:text-softgold'
+                          }`}
+                        >
+                          <span>{item.icon}</span>
+                          <span>{item.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="mt-8 rounded-xl border border-gold/20 bg-base/70 p-4">
+                      <div className="mb-2 h-12 w-12 rounded-full border border-white/20 bg-white/5" />
+                      <p className="font-semibold text-white">Aaron Joseph, CFA, MBA</p>
+                      <button className="mt-3 w-full rounded-lg border border-gold/35 px-3 py-2 text-sm text-softgold">Message Aaron</button>
+                    </div>
+                    <p className="mt-4 text-xs text-textsoft">
+                      Last Updated {new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                    </p>
+                  </div>
+                </aside>
+
+                <div className="space-y-6">
+                  <div className="glass rounded-2xl p-5">
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <h2 className="font-display text-4xl text-white">Welcome back, {dashboardData.clientName}</h2>
+                        <p className="mt-1 text-softgold">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                      </div>
+                      <button onClick={() => window.print()} className="no-print shimmer-btn rounded-xl border border-gold/35 bg-gold/15 px-4 py-2 text-sm font-semibold text-softgold">
+                        Export Summary
+                      </button>
+                    </div>
+                    <div className="mt-5 grid gap-3 md:grid-cols-4">
+                      {summaryBarData.map((item, idx) => (
+                        <div key={item.label} className={`px-3 ${idx ? 'md:border-l md:border-white/10' : ''}`}>
+                          <p className="text-xs uppercase tracking-[0.12em] text-textsoft">{item.label}</p>
+                          <p className="mt-1 text-xl font-semibold text-gold">{item.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <details className="glass rounded-2xl p-5" open={false}>
+                    <summary className="cursor-pointer list-none font-display text-3xl text-white">
+                      <span>Your EverMore Growth Package Includes</span>
+                      <span className="ml-3 align-middle text-xl text-softgold">▾</span>
+                    </summary>
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                        <p className="font-semibold text-softgold">Business Structure Management</p>
+                        <p className="mt-2 text-sm text-textsoft">Your LLC and S-Corp election are fully established and maintained. EverMore monitors your entity compliance, manages your registered agent requirements, and ensures your business structure remains optimized as your revenue grows. Your owner salary and distribution split are reviewed quarterly and adjusted to maximize your tax efficiency at every income level.</p>
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                        <p className="font-semibold text-softgold">Cash Flow Architecture</p>
+                        <p className="mt-2 text-sm text-textsoft">Your 4-account cash flow system is live and actively managed. EverMore monitors your allocation percentages each month, flags any accounts that fall below their target thresholds, and adjusts your recommended allocations as your monthly revenue changes. Your 3-month cash reserve target is tracked in real time and updated every quarter.</p>
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                        <p className="font-semibold text-softgold">Tax Strategy & Optimization</p>
+                        <p className="mt-2 text-sm text-textsoft">EverMore manages your complete tax strategy year-round — not just at filing time. This includes quarterly estimated tax payment calculations and reminders, ongoing deduction capture and categorization, Solo 401(k) contribution optimization updated monthly, and full coordination with your dedicated CPA partner at filing. You will never be surprised by a tax bill.</p>
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                        <p className="font-semibold text-softgold">Wealth Building & Investment Oversight</p>
+                        <p className="mt-2 text-sm text-textsoft">Your investment portfolio is reviewed quarterly and rebalanced as needed. EverMore monitors your contribution consistency, tracks your portfolio performance against your 3-year projection, and updates your revenue diversification roadmap as new income streams are activated. Pricing strategy reviews are conducted semi-annually to ensure your work is always positioned correctly in the market.</p>
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-base/50 p-4 md:col-span-2">
+                        <p className="font-semibold text-softgold">Advisor Access</p>
+                        <p className="mt-2 text-sm text-textsoft">Direct access to Aaron Joseph via email with a guaranteed 24-hour response. Quarterly video strategy sessions scheduled automatically. Monthly one-page financial snapshot delivered to your inbox. Annual comprehensive financial review each January.</p>
+                      </div>
+                    </div>
+                  </details>
+
+                  <section id="dash-sales" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Sales Performance</h3>
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                      {[
+                        { label: 'Total Sales This Month', key: 'salesThisMonth', value: dashboardData.salesThisMonth, fmt: (v) => `${v} sales`, delta: dashboardSalesDeltaPct },
+                        { label: 'Total Revenue This Month', key: 'monthlyRevenue', value: dashboardData.monthlyRevenue, fmt: (v) => currency(v), delta: dashboardRevenueDeltaPct },
+                        { label: 'Average Sale Value', key: 'avg', value: dashboardAverageSaleValue, fmt: (v) => currency(v), delta: 0 },
+                        { label: 'Best Month Ever', key: 'best', value: bestMonthEver, fmt: (v) => `🏆 ${currency(v)}`, delta: 0 },
+                      ].map((card, idx) => (
+                        <motion.div
+                          key={card.label}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: idx * 0.1 }}
+                          className="glass elev-card rounded-2xl p-4"
+                        >
+                          <p className="text-xs uppercase tracking-[0.12em] text-textsoft">{card.label}</p>
+                          <p className="mt-2 text-3xl font-bold text-gold">
+                            {card.key === 'monthlyRevenue' || card.key === 'salesThisMonth' ? (
+                              <EditableValue
+                                value={card.value}
+                                onSave={(v) => updateDashboardField(card.key, v)}
+                                formatter={card.fmt}
+                              />
+                            ) : (
+                              card.fmt(card.value)
+                            )}
+                          </p>
+                          {card.delta ? (
+                            <span className={`mt-2 inline-flex rounded-full px-2 py-1 text-xs ${card.delta >= 0 ? 'bg-success/20 text-success' : 'bg-danger/20 text-danger'}`}>
+                              {card.delta >= 0 ? '+' : ''}
+                              {card.delta.toFixed(1)}% vs last month
+                            </span>
+                          ) : null}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-4">
+                        <div className="mb-3 flex items-center justify-between">
+                          <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Revenue by Product Category</p>
+                          <div className="rounded-lg border border-white/10 bg-base p-1 text-xs">
+                            <button onClick={() => setDashboardCategoryView('month')} className={`rounded px-2 py-1 ${dashboardCategoryView === 'month' ? 'bg-gold text-base' : 'text-textsoft'}`}>This Month</button>
+                            <button onClick={() => setDashboardCategoryView('year')} className={`rounded px-2 py-1 ${dashboardCategoryView === 'year' ? 'bg-gold text-base' : 'text-textsoft'}`}>This Year</button>
+                          </div>
+                        </div>
+                        <div className="h-72">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={revenueCategoryChartData} layout="vertical" margin={{ left: 20, right: 12, top: 10, bottom: 5 }}>
+                              <CartesianGrid stroke="rgba(255,255,255,0.08)" strokeDasharray="4 4" />
+                              <XAxis type="number" tickFormatter={(v) => `$${Math.round(v / 1000)}k`} stroke={chartPalette.axis} />
+                              <YAxis type="category" dataKey="name" width={130} stroke={chartPalette.axis} />
+                              <Tooltip formatter={(v) => currency(v)} contentStyle={{ background: '#12121A', border: `1px solid ${chartPalette.primary}33` }} />
+                              <Bar dataKey="value" isAnimationActive animationDuration={700}>
+                                {revenueCategoryChartData.map((d) => <Cell key={d.key} fill={d.color} />)}
+                              </Bar>
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+
+                      <div className="glass elev-card rounded-2xl p-4">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Revenue by Platform</p>
+                        <div className="h-56">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                              <Pie data={revenuePlatformChartData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={85} animationDuration={800}>
+                                {revenuePlatformChartData.map((d) => <Cell key={d.name} fill={d.color} />)}
+                              </Pie>
+                              <Tooltip formatter={(v) => currency(v)} />
+                            </PieChart>
+                          </ResponsiveContainer>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          {revenuePlatformChartData.map((d) => (
+                            <div key={d.name} className="flex items-center gap-2 text-textsoft">
+                              <span className="h-2 w-2 rounded-full" style={{ background: d.color }} />
+                              <span>{d.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="glass elev-card rounded-2xl p-4">
+                      <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Revenue Trend (12 Months)</p>
+                      <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={dashboardData.monthlyRevenueTrend} margin={{ left: 5, right: 20, top: 10, bottom: 0 }}>
+                            <defs>
+                              <linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor={chartPalette.primary} stopOpacity={0.35} />
+                                <stop offset="95%" stopColor={chartPalette.primary} stopOpacity={0} />
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid stroke="rgba(255,255,255,0.08)" strokeDasharray="4 4" />
+                            <XAxis dataKey="month" stroke={chartPalette.axis} />
+                            <YAxis tickFormatter={(v) => `$${Math.round(v / 1000)}k`} stroke={chartPalette.axis} />
+                            <Tooltip formatter={(v) => currency(v)} />
+                            <Area type="monotone" dataKey="current" stroke={chartPalette.primary} strokeWidth={3} fillOpacity={1} fill="url(#salesFill)" />
+                            <Line type="monotone" dataKey="previous" stroke={chartPalette.axis} strokeDasharray="6 6" dot={false} />
+                            <ReferenceDot x={dashboardData.monthlyRevenueTrend[dashboardData.monthlyRevenueTrend.length - 1]?.month} y={dashboardData.monthlyRevenueTrend[dashboardData.monthlyRevenueTrend.length - 1]?.current} r={6} fill={chartPalette.mist} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
+                    <div className="glass elev-card rounded-2xl p-4">
+                      <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Revenue Forecast — Next 90 Days</p>
+                      <p className="text-xs text-textsoft">AI-assisted projection based on your historical patterns</p>
+                      <div className="mt-3 h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={forecastData}>
+                            <CartesianGrid stroke="rgba(255,255,255,0.08)" strokeDasharray="4 4" />
+                            <XAxis dataKey="label" stroke={chartPalette.axis} />
+                            <YAxis tickFormatter={(v) => `$${Math.round(v / 1000)}k`} stroke={chartPalette.axis} />
+                            <Tooltip formatter={(v) => (v ? currency(v) : '—')} />
+                            <Area dataKey="high" stroke="none" fill="rgba(107,182,255,0.12)" />
+                            <Area dataKey="low" stroke="none" fill="#0A0A0F" />
+                            <Line type="monotone" dataKey="actual" stroke={chartPalette.primary} strokeWidth={3} dot={false} />
+                            <Line type="monotone" dataKey="projected" stroke={chartPalette.info} strokeDasharray="6 6" strokeWidth={2.5} dot={false} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="grid gap-3 md:grid-cols-3">
+                        <div className="rounded-xl border border-gold/25 bg-gold/10 p-3">
+                          <p className="text-sm font-semibold text-gold">Holiday Impact</p>
+                          <p className="mt-1 text-xs text-textsoft">December historically drives 40% above your monthly average. Your Tax Reserve has been pre-adjusted to account for the larger income. No action needed.</p>
+                        </div>
+                        <div className="rounded-xl border border-yellow-400/25 bg-yellow-500/10 p-3">
+                          <p className="text-sm font-semibold text-yellow-300">January Planning</p>
+                          <p className="mt-1 text-xs text-textsoft">January typically sees a 35% revenue dip post-holidays. Your cash reserve and Owner Pay account are structured to maintain your personal salary without interruption during slow months.</p>
+                        </div>
+                        <div className="rounded-xl border border-success/25 bg-success/10 p-3">
+                          <p className="text-sm font-semibold text-success">Spring Opportunity</p>
+                          <p className="mt-1 text-xs text-textsoft">March–May is your strongest quarter based on art show season. Aaron recommends opening 2–3 commission slots in late February to capitalize on spring demand. Discuss at your January 20th strategy session.</p>
+                        </div>
+                      </div>
+                      <p className="mt-3 text-xs text-textsoft">Projections are based on historical patterns and seasonal averages. Actual results may vary. Updated monthly by your EverMore advisor.</p>
+                    </div>
+                  </section>
+
+                  <section id="dash-snapshot" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Monthly Financial Snapshot</h3>
+                    <p className="text-textsoft">December 2025 — Prepared by Aaron Joseph, CFA, MBA</p>
+                    <div id="monthly-report-print" className="print-report-target glass rounded-2xl p-6">
+                      <div className="border-b border-white/10 pb-4">
+                        <p className="font-display text-2xl text-gold">EverMore Financial Group</p>
+                        <p className="mt-1 text-xl text-white">Monthly Financial Snapshot — December 2025</p>
+                        <p className="text-sm text-textsoft">Client: Sarah Mitchell | Mitchell Fine Arts</p>
+                        <p className="text-sm text-textsoft">Prepared by: Aaron Joseph, CFA, MBA</p>
+                        <p className="text-sm text-textsoft">Date: December 31, 2025</p>
+                      </div>
+                      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                        <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                          <p className="font-semibold text-softgold">Revenue Summary</p>
+                          <p className="mt-2 text-2xl text-gold">Total Revenue This Month: {currency(14200)} 🏆</p>
+                          <p className="text-sm text-textsoft">vs Last Month: +$2,800 (+24.6%)</p>
+                          <p className="text-sm text-textsoft">vs Same Month Last Year: +$6,100 (+75.3%)</p>
+                          <div className="mt-3 h-40">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <BarChart data={[{ c: 'Paintings', v: 6800 }, { c: 'Prints', v: 4200 }, { c: 'Sculptures', v: 2100 }, { c: 'Digital', v: 1100 }]} layout="vertical">
+                                <XAxis type="number" hide />
+                                <YAxis dataKey="c" type="category" width={90} stroke={chartPalette.axis} />
+                                <Bar dataKey="v" fill={chartPalette.primary} radius={[0, 8, 8, 0]} />
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                          <p className="font-semibold text-softgold">Cash Flow Status</p>
+                          <p className="mt-2 text-sm text-textsoft">Operating: {currency(dashboardData.accountBalances.operating)}</p>
+                          <p className="text-sm text-textsoft">Owner Pay: {currency(dashboardData.accountBalances.ownerPay)}</p>
+                          <p className="text-sm text-textsoft">Tax Reserve: {currency(dashboardData.accountBalances.taxReserve)}</p>
+                          <p className="text-sm text-textsoft">Profit: {currency(dashboardData.accountBalances.profit)}</p>
+                          <p className="mt-2 text-sm text-softgold">Cash reserve: 78% of goal reached</p>
+                          <p className="text-sm text-textsoft">Monthly allocation summary maintained and monitored by EverMore.</p>
+                        </div>
+                        <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                          <p className="font-semibold text-softgold">Tax Position</p>
+                          <p className="mt-2 text-sm text-textsoft">YTD tax savings: {currency(9340)}</p>
+                          <p className="text-sm text-textsoft">Estimated annual tax bill: {currency(16600)}</p>
+                          <p className="text-sm text-textsoft">Deductions captured this month: {currency(1840)}</p>
+                          <p className="text-sm text-textsoft">Solo 401(k) YTD contributions: {currency(18000)}</p>
+                        </div>
+                        <div className="rounded-xl border border-white/10 bg-base/50 p-4">
+                          <p className="font-semibold text-softgold">Health Score</p>
+                          <p className="mt-2 text-sm text-textsoft">Current score: 71/100 — Grade B</p>
+                          <p className="text-sm text-textsoft">Change from last month: +4 points</p>
+                          <p className="text-sm text-textsoft">Top improvement area: Cash Flow Management</p>
+                        </div>
+                      </div>
+                      <div className="mt-4 rounded-xl border border-gold/30 bg-gold/10 p-4 italic text-softgold">
+                        "December was your strongest month on record — congratulations Sarah. Your cash reserve is nearly at the 3-month goal and your tax position is well managed heading into the new year. In January we'll focus on activating your first licensing agreement and reviewing your 2026 pricing structure. You've built something remarkable this year. — Aaron"
+                      </div>
+                      <button onClick={() => window.print()} className="no-print shimmer-btn mt-4 w-full rounded-xl bg-gold px-4 py-3 font-semibold" style={{ color: '#0A0A0F' }}>
+                        Download Monthly Report
+                      </button>
+                    </div>
+                  </section>
+
+                  <section id="dash-cashflow" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Cash Flow Command Center</h3>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {accountCards.map((card, idx) => {
+                        const balance = dashboardData.accountBalances[card.key];
+                        const progress = card.target > 0 ? clamp((balance / card.target) * 100, 0, 100) : 0;
+                        const spark = dashboardData.accountHistory[card.key].map((value, i) => ({ m: i + 1, value }));
+                        return (
+                          <motion.div
+                            key={card.key}
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, delay: idx * 0.1 }}
+                            className="glass elev-card rounded-2xl p-4"
+                          >
+                            <p className="text-sm uppercase tracking-[0.12em] text-textsoft">{card.label}</p>
+                            <p className="text-xs text-textsoft">{card.purpose}</p>
+                            <p className="mt-2 text-3xl font-bold text-gold">
+                              <EditableValue
+                                value={balance}
+                                formatter={(v) => currency(v)}
+                                onSave={(v) => updateDashboardNested('accountBalances', card.key, v)}
+                              />
+                            </p>
+                            <div className="mt-3 h-2 rounded-full bg-white/10">
+                              <motion.div initial={{ width: 0 }} whileInView={{ width: `${progress}%` }} className="h-2 rounded-full" style={{ background: card.color }} />
+                            </div>
+                            <p className="mt-1 text-xs text-textsoft">Target {currency(card.target)} · {progress.toFixed(0)}%</p>
+                            <div className="mt-3 h-16">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={spark}>
+                                  <Line dataKey="value" stroke={card.color} strokeWidth={2} dot={false} />
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-4">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Cash Reserve Progress</p>
+                        <p className="mt-2 text-4xl font-bold text-gold">{currency(reserveCurrent)}</p>
+                        <p className="text-sm text-textsoft">Target {currency(dashboardData.monthlyExpenses * 3)}</p>
+                        <div className="mt-4 flex items-center gap-6">
+                          <Gauge score={reserveStatusPct} />
+                          <div className="text-sm text-textsoft">
+                            <p>Projected full reserve date</p>
+                            <p className="text-softgold">
+                              {new Date(Date.now() + ((Math.max(1, dashboardData.monthlyExpenses * 3 - reserveCurrent) / Math.max(1, dashboardData.monthlyRevenue * 0.1)) * 30 * 24 * 3600 * 1000)).toLocaleDateString()}
+                            </p>
+                            <div className="mt-3 grid grid-cols-4 gap-2 text-xs">
+                              {[25, 50, 75, 100].map((m) => (
+                                <span key={m} className={`rounded border px-2 py-1 ${reserveStatusPct >= m ? 'border-gold text-gold' : 'border-white/20 text-textsoft'}`}>{m}%</span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="glass elev-card rounded-2xl p-4">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Upcoming Financial Deadlines</p>
+                        <div className="mt-3 space-y-3">
+                          {deadlinesWithUrgency.map((item) => (
+                            <div key={item.id} className="flex items-center justify-between rounded-lg border border-white/10 bg-base/60 px-3 py-2">
+                              <div className="flex items-center gap-3">
+                                <span className={`h-2.5 w-2.5 rounded-full ${item.urgency === 'red' ? 'bg-danger' : item.urgency === 'yellow' ? 'bg-yellow-400' : 'bg-success'}`} />
+                                <div>
+                                  <p className="text-sm text-white">{item.label}</p>
+                                  <p className="text-xs text-textsoft">{item.date}</p>
+                                </div>
+                              </div>
+                              <p className={`text-sm font-semibold ${item.id === 'tax' ? 'text-danger' : 'text-softgold'}`}>
+                                {item.amount ? currency(item.amount) : `${item.days} days`}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section id="dash-tax" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Tax Strategy Tracker</h3>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">YTD Tax Savings vs Sole Proprietor</p>
+                        <AnimatedNumber value={dashboardData.taxSavingsYtd} className="mt-2 block text-5xl font-bold text-gold" />
+                        <div className="mt-4 h-64">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={dashboardData.taxBurdenComparison}>
+                              <CartesianGrid stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+                              <XAxis dataKey="month" stroke={chartPalette.axis} />
+                              <YAxis stroke={chartPalette.axis} />
+                              <Tooltip formatter={(v) => currency(v)} />
+                              <Bar dataKey="before" fill={chartPalette.alert} />
+                              <Bar dataKey="after" fill={chartPalette.primary} />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Deductions Captured</p>
+                        <div className="mt-3 grid gap-2">
+                          {deductionsData.map((row) => (
+                            <div key={row.key} className="flex items-center justify-between rounded-lg border border-white/10 bg-base/60 px-3 py-2">
+                              <p className="text-sm text-white">{row.icon} {row.label}</p>
+                              <p className="font-semibold text-softgold">
+                                <EditableValue
+                                  value={dashboardData.deductions[row.key]}
+                                  formatter={(v) => currency(v)}
+                                  onSave={(v) => updateDashboardNested('deductions', row.key, v)}
+                                />
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                        <p className="mt-3 text-2xl font-bold text-gold">Total {currency(deductionsTotal)}</p>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Solo 401(k) Contribution Tracker</p>
+                        <p className="mt-2 text-3xl font-bold text-gold">{currency(dashboardData.solo401kContributed)} / {currency(dashboardData.solo401kLimit)}</p>
+                        <div className="mt-3 h-3 rounded-full bg-white/10">
+                          <motion.div className="h-3 rounded-full bg-gradient-to-r from-gold to-softgold" initial={{ width: 0 }} whileInView={{ width: `${clamp((dashboardData.solo401kContributed / dashboardData.solo401kLimit) * 100, 0, 100)}%` }} />
+                        </div>
+                        <p className="mt-2 text-sm text-textsoft">Tax impact of contributions: <span className="text-success">{currency(soloTaxImpact)}</span></p>
+                        <p className="text-sm text-textsoft">Recommended monthly contribution: <span className="text-softgold">{currency(monthlyNeeded401k)}</span></p>
+                      </div>
+
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Estimated Annual Tax Bill</p>
+                        <p className="mt-2 text-3xl font-bold text-gold">{currency(estimatedAnnualTaxSplit.total)}</p>
+                        <div className="mt-3 space-y-1 text-sm text-textsoft">
+                          <p>Federal Income Tax: <span className="text-white">{currency(estimatedAnnualTaxSplit.federal)}</span></p>
+                          <p>Self-Employment Tax: <span className="text-white">{currency(estimatedAnnualTaxSplit.se)}</span></p>
+                          <p>State Tax: <span className="text-white">{currency(estimatedAnnualTaxSplit.state)}</span></p>
+                          <p>As Sole Proprietor: <span className="text-danger">{currency(estimatedAnnualTaxSplit.soleTotal)}</span></p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section id="dash-goals" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Your Financial Goals</h3>
+                    <p className="text-textsoft">Active goals tracked by EverMore — updated quarterly</p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      {goals.map((goal) => (
+                        <div key={goal.id} className="glass elev-card rounded-2xl p-4">
+                          <p className="font-semibold text-white">{goal.title}</p>
+                          <p className="mt-1 text-sm text-textsoft">Target Date: {goal.date}</p>
+                          <div className="mt-2 flex items-center justify-between text-sm">
+                            <p className="text-softgold">Progress: {goal.pct}%</p>
+                            <span className={`rounded-full px-2 py-1 text-xs ${goal.statusColor === 'green' ? 'bg-success/20 text-success' : 'bg-yellow-500/20 text-yellow-300'}`}>{goal.status}</span>
+                          </div>
+                          <div className="mt-2 h-2 rounded-full bg-white/10">
+                            <motion.div className="h-2 rounded-full bg-gold" initial={{ width: 0 }} whileInView={{ width: `${goal.pct}%` }} />
+                          </div>
+                          <div className="mt-3 flex items-center gap-2">
+                            <span className="text-xs text-textsoft">Edit %</span>
+                            <input type="number" min="0" max="100" value={goal.pct} onChange={(e) => updateGoalProgress(goal.id, e.target.value)} className="w-20 rounded-lg border border-white/10 bg-base px-2 py-1 text-sm text-white" />
+                          </div>
+                          {goal.note ? <p className="mt-2 text-xs text-textsoft">{goal.note}</p> : null}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="glass rounded-2xl p-4">
+                      <p className="font-semibold text-white">Goals Summary</p>
+                      <p className="mt-2 text-sm text-success">3 goals on track</p>
+                      <p className="text-sm text-yellow-300">2 goals need attention</p>
+                      <p className="text-sm text-danger">0 goals at risk</p>
+                      <p className="mt-2 text-sm text-textsoft">Next quarterly goal review: January 20, 2026</p>
+                    </div>
+                  </section>
+
+                  <section id="dash-vault" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Document Vault</h3>
+                    <p className="text-textsoft">All documents prepared and maintained by EverMore Financial Group</p>
+                    <div className="glass rounded-2xl p-4">
+                      <div className="mb-3 grid gap-3 md:grid-cols-3">
+                        <p className="text-sm text-textsoft">Total Documents: 21</p>
+                        <p className="text-sm text-textsoft">Last Updated: December 31, 2025</p>
+                        <p className="text-sm text-textsoft">Storage Used: 48.3 MB</p>
+                      </div>
+                      <input value={vaultSearch} onChange={(e) => setVaultSearch(e.target.value)} placeholder="Search documents..." className="mb-4 w-full rounded-xl border border-white/10 bg-base px-3 py-2 text-white" />
+                      {[
+                        ['legal', 'LEGAL & STRUCTURE'],
+                        ['tax', 'TAX & FINANCIAL REPORTS'],
+                        ['strategy', 'STRATEGY & PLANNING'],
+                      ].map(([key, title]) => (
+                        <div key={key} className="mb-3 rounded-xl border border-white/10 bg-base/40">
+                          <button onClick={() => setVaultOpen((p) => ({ ...p, [key]: !p[key] }))} className="flex w-full items-center justify-between px-3 py-2 text-left">
+                            <span className="font-semibold text-softgold">{title}</span>
+                            <span className="text-textsoft">{vaultOpen[key] ? '▾' : '▸'}</span>
+                          </button>
+                          <AnimatePresence>
+                            {vaultOpen[key] ? (
+                              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+                                {vaultDocs[key]
+                                  .filter((doc) => doc.name.toLowerCase().includes(vaultSearch.toLowerCase()))
+                                  .map((doc) => (
+                                    <div key={doc.name} className="flex items-center justify-between border-t border-white/10 px-3 py-2 hover:bg-white/5">
+                                      <div>
+                                        <p className="font-semibold text-white">📄 {doc.name}</p>
+                                        <p className="text-xs text-textsoft">{doc.date}</p>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="rounded-full border border-gold/30 px-2 py-1 text-xs text-softgold">{doc.status}</span>
+                                        <button className="text-gold">⬇</button>
+                                      </div>
+                                    </div>
+                                  ))}
+                              </motion.div>
+                            ) : null}
+                          </AnimatePresence>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section id="dash-inventory" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Inventory & Product Management</h3>
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                      <div className="glass elev-card rounded-2xl p-4"><p className="text-xs text-textsoft">Original Pieces Available</p><p className="text-3xl font-bold text-gold">{originalCount} paintings · {sculptureCount} sculptures</p></div>
+                      <div className="glass elev-card rounded-2xl p-4"><p className="text-xs text-textsoft">Active Print SKUs</p><p className="text-3xl font-bold text-gold">{dashboardData.inventoryCounts.printSkus}</p></div>
+                      <div className="glass elev-card rounded-2xl p-4"><p className="text-xs text-textsoft">Pieces Sold This Month</p><p className="text-3xl font-bold text-gold">{soldThisMonth}</p></div>
+                      <div className="glass elev-card rounded-2xl p-4"><p className="text-xs text-textsoft">Total Inventory Value</p><p className="text-3xl font-bold text-gold">{currency(inventoryValue)}</p></div>
+                    </div>
+
+                    {originalCount < 3 ? (
+                      <div className="rounded-xl border border-gold/35 bg-gold/10 px-4 py-3 text-softgold">
+                        Only {originalCount} original pieces available — consider scheduling new work or opening a commission waitlist.
+                      </div>
+                    ) : null}
+
+                    <div className="glass elev-card overflow-x-auto rounded-2xl p-4">
+                      <div className="mb-3 flex items-center justify-between">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Inventory Table</p>
+                        <button onClick={addInventoryRow} className="rounded-lg border border-gold/35 px-3 py-2 text-sm text-softgold">Add New Piece</button>
+                      </div>
+                      <table className="min-w-full text-sm">
+                        <thead className="text-textsoft">
+                          <tr>
+                            {['Piece Name', 'Category', 'Status', 'Price', 'Date Listed', 'Platform Listed On', 'Notes', 'Action'].map((h) => (
+                              <th key={h} className="border-b border-white/10 px-2 py-2 text-left font-medium">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dashboardData.inventoryRows.filter((r) => r.status !== 'Sold').map((row) => (
+                            <tr key={row.id} className="border-b border-white/5">
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.piece} onSave={(v) => updateInventoryRow(row.id, 'piece', v)} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.category} onSave={(v) => updateInventoryRow(row.id, 'category', v)} options={['Painting', 'Print', 'Sculpture', 'Digital', 'Commission']} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.status} onSave={(v) => updateInventoryRow(row.id, 'status', v)} options={['Available', 'Sold', 'Reserved', 'In Progress']} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.price} type="number" onSave={(v) => updateInventoryRow(row.id, 'price', v)} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.dateListed} onSave={(v) => updateInventoryRow(row.id, 'dateListed', v)} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.platform} onSave={(v) => updateInventoryRow(row.id, 'platform', v)} /></td>
+                              <td className="px-2 py-2"><InventoryEditableCell value={row.notes} onSave={(v) => updateInventoryRow(row.id, 'notes', v)} /></td>
+                              <td className="px-2 py-2">
+                                <button onClick={() => markAsSold(row.id)} className="rounded-md border border-success/40 px-2 py-1 text-xs text-success">Mark as Sold</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass rounded-2xl p-4">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Sold Pieces</p>
+                        <div className="mt-2 space-y-2">
+                          {dashboardData.inventoryRows.filter((r) => r.status === 'Sold').map((row) => (
+                            <div key={row.id} className="flex items-center justify-between rounded-lg border border-success/25 bg-success/10 px-3 py-2">
+                              <span>{row.piece}</span>
+                              <span className="text-success">✓ Sold</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="glass rounded-2xl p-4">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Best Sellers This Month</p>
+                        <div className="mt-3 space-y-2 text-sm">
+                          {bestSellerRank.map((item, idx) => (
+                            <div key={item.key} className="flex items-center justify-between rounded-lg border border-white/10 bg-base/60 px-3 py-2">
+                              <span>{idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'} {item.name}</span>
+                              <span className="text-gold">{currency(item.value)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section id="dash-wealth" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Building Your Future</h3>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Investment Portfolio</p>
+                        <p className="mt-2 text-5xl font-bold text-gold">{currency(dashboardData.portfolioValue)}</p>
+                        <p className="text-sm text-textsoft">Contribution {currency(dashboardData.monthlyContribution)}/month · Annualized return {(dashboardData.annualizedReturn * 100).toFixed(1)}%</p>
+                        <p className="text-sm text-softgold">6 months consistent — keep going!</p>
+                        <div className="mt-3 h-64">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={portfolioGrowthData}>
+                              <CartesianGrid stroke="rgba(255,255,255,0.08)" />
+                              <XAxis dataKey="month" stroke={chartPalette.axis} />
+                              <YAxis stroke={chartPalette.axis} tickFormatter={(v) => `$${Math.round(v / 1000)}k`} />
+                              <Tooltip formatter={(v) => currency(v)} />
+                              <Area type="monotone" dataKey="actual" stroke={chartPalette.teal} fill="rgba(59,122,136,0.15)" />
+                              <Line type="monotone" dataKey="projected" stroke={chartPalette.primary} strokeDasharray="6 4" dot={false} />
+                            </AreaChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="glass rounded-2xl p-5">
+                          <p className="text-sm uppercase tracking-[0.12em] text-textsoft">3-Year Wealth Projection</p>
+                          <div className="mt-3 grid gap-3 md:grid-cols-3">
+                            {[{ l: 'Month 12', v: milestone12 }, { l: 'Month 24', v: milestone24 }, { l: 'Month 36', v: milestone36 }].map((m) => (
+                              <div key={m.l} className="rounded-lg border border-white/10 bg-base/70 p-3">
+                                <p className="text-xs text-textsoft">{m.l}</p>
+                                <AnimatedNumber value={m.v} className="text-2xl font-bold text-gold" />
+                              </div>
+                            ))}
+                          </div>
+                          <p className="mt-3 text-sm text-textsoft">Without investing: <span className="text-danger">$0</span> | With EverMore strategy: <span className="text-gold">{currency(milestone36)}</span></p>
+                        </div>
+                        <div className="glass rounded-2xl p-5">
+                          <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Revenue Diversification Progress</p>
+                          <div className="mt-3 space-y-2">
+                            {dashboardData.passiveStreams.map((item) => (
+                              <button
+                                key={item.id}
+                                onClick={() => setDashboardData((prev) => ({ ...prev, passiveStreams: prev.passiveStreams.map((r) => r.id === item.id ? { ...r, active: !r.active } : r) }))}
+                                className={`w-full rounded-lg border px-3 py-2 text-left ${item.active ? 'border-gold/45 bg-gold/10 text-softgold' : 'border-white/15 text-textsoft'}`}
+                              >
+                                <p>{item.active ? '☑' : '☐'} {item.name} — {item.status}</p>
+                                <p className="text-xs">Estimated monthly revenue {currency(item.est)}</p>
+                              </button>
+                            ))}
+                          </div>
+                          <p className="mt-3 text-lg font-semibold text-gold">Monthly Passive Income: {currency(passiveIncomeTotal)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section id="dash-health" className="space-y-4">
+                    <h3 className="font-display text-3xl text-white">Your Financial Health Over Time</h3>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="glass elev-card rounded-2xl p-5">
+                        <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
+                          <Gauge score={dashboardData.healthScore} />
+                          <div>
+                            <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Current Grade</p>
+                            <p className="font-display text-6xl text-gold">
+                              {dashboardData.healthScore >= 90 ? 'A' : dashboardData.healthScore >= 80 ? 'B' : dashboardData.healthScore >= 70 ? 'C' : dashboardData.healthScore >= 60 ? 'D' : 'F'}
+                            </p>
+                            <div className="mt-2 grid gap-1 text-sm text-textsoft">
+                              <p>Legal Protection: {dashboardData.healthCategories.legalProtection}/20</p>
+                              <p>Tax Efficiency: {dashboardData.healthCategories.taxEfficiency}/20</p>
+                              <p>Cash Flow: {dashboardData.healthCategories.cashFlow}/20</p>
+                              <p>Wealth Building: {dashboardData.healthCategories.wealthBuilding}/20</p>
+                              <p>Revenue Diversification: {dashboardData.healthCategories.diversification}/20</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4 h-64">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <RadarChart data={healthRadarData}>
+                              <PolarGrid stroke="rgba(255,255,255,0.2)" />
+                              <PolarAngleAxis dataKey="subject" stroke={chartPalette.axis} />
+                              <PolarRadiusAxis domain={[0, 20]} stroke={chartPalette.axis} />
+                              <Radar dataKey="score" stroke={chartPalette.primary} fill={chartPalette.primary} fillOpacity={0.3} />
+                            </RadarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="glass rounded-2xl p-5">
+                          <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Score History</p>
+                          <div className="mt-3 h-48">
+                            <ResponsiveContainer width="100%" height="100%">
+                              <LineChart data={dashboardData.healthHistory}>
+                                <CartesianGrid stroke="rgba(255,255,255,0.08)" />
+                                <XAxis dataKey="label" stroke={chartPalette.axis} />
+                                <YAxis domain={[0, 100]} stroke={chartPalette.axis} />
+                                <Tooltip />
+                                <Line dataKey="score" stroke={chartPalette.primary} strokeWidth={3} />
+                              </LineChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                        <div className="glass rounded-2xl p-5">
+                          <p className="text-sm uppercase tracking-[0.12em] text-textsoft">Next Steps ({lowestHealthCategory})</p>
+                          <div className="mt-3 space-y-2">
+                            {nextSteps.map((step) => (
+                              <label key={step} className="flex items-center gap-2 rounded-lg border border-white/10 bg-base/60 px-3 py-2 text-sm">
+                                <input type="checkbox" checked={Boolean(taxActionChecks[step])} onChange={() => toggleActionItem(step)} />
+                                <span>{step}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+
+              <div className="no-print fixed bottom-3 left-1/2 z-40 w-[95%] -translate-x-1/2 rounded-xl border border-gold/25 bg-base/90 p-2 backdrop-blur lg:hidden">
+                <div className="grid grid-cols-9 gap-1">
+                  {dashboardSectionItems.map((item) => (
+                    <button key={item.id} onClick={() => scrollToSection(item.id)} className={`rounded-md px-1 py-2 text-[11px] ${activeDashboardSection === item.id ? 'bg-gold/20 text-gold' : 'text-textsoft'}`}>
+                      <div>{item.icon}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="no-print fixed bottom-5 right-5 z-50">
+                <button
+                  onClick={() => setChatOpen((v) => !v)}
+                  className="relative grid h-14 w-14 place-items-center rounded-full bg-gold text-xl text-white shadow-glow"
+                >
+                  💬
+                  <span className="absolute right-1 top-1 h-3 w-3 animate-pulse rounded-full bg-success" />
+                  {chatUnread > 0 ? (
+                    <span className="absolute -left-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-gold text-[10px] font-bold text-base">
+                      {chatUnread}
+                    </span>
+                  ) : null}
+                </button>
+              </div>
+              <AnimatePresence>
+                {chatOpen ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="no-print fixed bottom-24 right-5 z-50 h-[520px] w-[380px] rounded-2xl border border-gold/30 bg-surface/95 shadow-glow backdrop-blur"
+                  >
+                    <div className="flex items-center justify-between rounded-t-2xl border-b border-gold/30 bg-gold/20 px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="grid h-8 w-8 place-items-center rounded-full bg-gold text-xs font-bold text-base">AJ</span>
+                        <div>
+                          <p className="text-sm font-semibold text-softgold">Aaron Joseph — Your Financial Advisor</p>
+                        </div>
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-success" />
+                      </div>
+                      <button onClick={() => setChatOpen(false)} className="text-textsoft">✕</button>
+                    </div>
+                    <div className="h-[400px] space-y-3 overflow-y-auto p-3">
+                      {chatMessages.map((msg, i) => (
+                        <div key={`${msg.time}-${i}`} className={`rounded-xl border p-2 ${msg.from === 'Aaron' ? 'border-gold/25 bg-gold/10' : 'border-white/10 bg-base/60'}`}>
+                          <p className="text-xs font-semibold text-softgold">{msg.from} <span className="text-textsoft">({msg.time})</span></p>
+                          <p className="text-sm text-white">{msg.text}</p>
+                        </div>
+                      ))}
+                      {chatTyping ? (
+                        <div className="rounded-xl border border-gold/20 bg-gold/10 p-2">
+                          <p className="text-xs text-softgold">Aaron is typing</p>
+                          <div className="mt-1 flex gap-1">
+                            <span className="h-2 w-2 animate-bounce rounded-full bg-softgold" />
+                            <span className="h-2 w-2 animate-bounce rounded-full bg-softgold [animation-delay:120ms]" />
+                            <span className="h-2 w-2 animate-bounce rounded-full bg-softgold [animation-delay:240ms]" />
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex gap-2 border-t border-white/10 p-3">
+                      <input
+                        value={chatInput}
+                        onChange={(e) => setChatInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && sendChatMessage()}
+                        placeholder="Message Aaron..."
+                        className="w-full rounded-xl border border-white/10 bg-base px-3 py-2 text-sm text-white"
+                      />
+                      <button onClick={sendChatMessage} className="rounded-xl bg-gold px-3 py-2 text-sm font-semibold text-base">Send</button>
+                    </div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {goalCelebration ? (
+                  <motion.div className="no-print fixed inset-0 z-50 grid place-items-center bg-black/70" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <motion.div className="glass w-full max-w-md rounded-2xl p-6 text-center" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+                      <div className="text-5xl text-gold">🎉</div>
+                      <p className="mt-3 font-display text-3xl text-gold">Goal Achieved!</p>
+                      <p className="mt-2 text-textsoft">Congratulations Sarah — Aaron has been notified of your milestone.</p>
+                      <button onClick={() => setGoalCelebration(false)} className="mt-4 rounded-xl bg-gold px-4 py-2 font-semibold text-base">Close</button>
+                    </motion.div>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </section>
+
+            <SectionShell
+              id="health"
+              title="Your Financial Health Score"
+              subtitle="A quick diagnostic powered by core financial operating standards for growth-stage artist businesses."
+            >
+              <div className="grid gap-6 lg:grid-cols-12">
+                <div className="glass elev-card rounded-2xl p-6 lg:col-span-7">
+                  {!quizComplete ? (
+                    <>
+                      <p className="text-sm uppercase tracking-[0.14em] text-softgold">
+                        Question {quizIndex + 1} of {quizQuestions.length}
+                      </p>
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={quizIndex}
+                          initial={{ opacity: 0, x: 24 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -24 }}
+                          transition={{ duration: 0.32 }}
+                          className="mt-5"
+                        >
+                          <h3 className="font-display text-3xl text-white">{quizQuestions[quizIndex].question}</h3>
+                          <div className="mt-5 grid gap-3">
+                            {quizQuestions[quizIndex].options.map((option) => (
+                              <button
+                                key={option}
+                                onClick={() => handleQuizAnswer(option)}
+                                className="rounded-xl border border-white/15 bg-base/75 px-4 py-3 text-left text-white transition hover:border-gold hover:text-softgold"
+                              >
+                                {option}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
+                      <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
+                        <Gauge score={quizScore} />
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.15em] text-textsoft">Letter Grade</p>
+                          <p className="font-display text-7xl text-gold">{quizGrade}</p>
+                          <p className="max-w-md text-textsoft">
+                            This score reflects your current structure, discipline, and risk controls. Your upside improves fast once these core systems are aligned.
+                          </p>
+                          <button onClick={resetQuiz} className="mt-4 text-sm text-softgold hover:text-gold">
+                            Retake Audit
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 grid gap-3 md:grid-cols-3">
+                        {recommendations.map((rec) => (
+                          <div key={rec.title} className="rounded-xl border border-gold/20 bg-base/70 p-4">
+                            <p className="text-xs uppercase tracking-[0.14em] text-softgold">{rec.pillar}</p>
+                            <p className="mt-2 text-lg font-semibold text-white">{rec.title}</p>
+                            <p className="mt-2 text-sm text-textsoft">{rec.text}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <button
+                        onClick={() => scrollToSection('dashboard')}
+                        className="shimmer-btn mt-6 rounded-xl bg-gold px-6 py-3 font-semibold"
+                        style={{ color: '#0A0A0F' }}
+                      >
+                        Return to My Dashboard
+                      </button>
+                    </motion.div>
+                  )}
+                </div>
+
+                <div className="glass elev-card rounded-2xl p-6 lg:col-span-5">
+                  <p className="text-sm uppercase tracking-[0.15em] text-softgold">Audit Context</p>
+                  <h3 className="mt-2 font-display text-3xl text-white">Built for Independent Artists</h3>
+                  <p className="mt-3 text-textsoft">
+                    Your growth brings complexity: mixed revenue streams, platform volatility, inventory costs, and inconsistent tax planning. This audit identifies the exact systems to stabilize and scale your business.
+                  </p>
+
+                  <div className="mt-6 space-y-3">
+                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
+                      <p className="text-sm text-textsoft">Consultant</p>
+                      <p className="font-semibold text-white">Aaron Joseph, CFA, MBA</p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
+                      <p className="text-sm text-textsoft">Phone</p>
+                      <p className="font-semibold text-white">(312) 555-0192</p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
+                      <p className="text-sm text-textsoft">Website</p>
+                      <p className="font-semibold text-white">www.evermorefinancial.com</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SectionShell>
+
+            <footer className="border-t border-white/10 px-4 py-8 text-center text-sm text-textsoft">
+              EverMore & Company Client Portal · (312) 555-0192 · www.evermorefinancial.com
+            </footer>
+          </motion.div>
+        );
+      };
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
