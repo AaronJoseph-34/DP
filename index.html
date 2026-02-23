@@ -19,14 +19,14 @@
             colors: {
               base: '#0A0A0F',
               surface: '#12121A',
-              gold: '#6BB6FF',
-              softgold: '#DCEEFF',
+              gold: '#b4b4b4',
+              softgold: '#b4b4b4',
               textsoft: '#8A8A9A',
               success: '#00C896',
               danger: '#FF4D6D',
             },
             boxShadow: {
-              glow: '0 0 0 1px rgba(107,182,255,0.35), 0 12px 35px rgba(107,182,255,0.16)',
+              glow: '0 0 0 1px rgba(180,180,180,0.35), 0 12px 35px rgba(180,180,180,0.16)',
             },
             fontFamily: {
               display: ['Playfair Display', 'Georgia', 'serif'],
@@ -40,8 +40,8 @@
       :root {
         --bg: #0a0a0f;
         --surface: #12121a;
-        --gold: #6bb6ff;
-        --gold-soft: #dceeff;
+        --gold: #b4b4b4;
+        --gold-soft: #b4b4b4;
         --text-muted: #8a8a9a;
         --success: #00c896;
         --danger: #ff4d6d;
@@ -58,7 +58,7 @@
       body {
         margin: 0;
         font-family: 'Inter', 'Calibri', sans-serif;
-        background: radial-gradient(circle at 20% 10%, rgba(107, 182, 255, 0.1), transparent 40%),
+        background: radial-gradient(circle at 20% 10%, rgba(180, 180, 180, 0.1), transparent 40%),
           radial-gradient(circle at 80% 80%, rgba(0, 200, 150, 0.06), transparent 35%),
           var(--bg);
         color: #fff;
@@ -66,7 +66,7 @@
 
       .glass {
         background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-        border: 1px solid rgba(107, 182, 255, 0.2);
+        border: 1px solid rgba(180, 180, 180, 0.2);
         backdrop-filter: blur(14px);
       }
 
@@ -76,20 +76,20 @@
 
       .elev-card:hover {
         transform: translateY(-6px);
-        border-color: rgba(107, 182, 255, 0.45);
-        box-shadow: 0 0 0 1px rgba(107, 182, 255, 0.28), 0 14px 36px rgba(107, 182, 255, 0.18);
+        border-color: rgba(180, 180, 180, 0.45);
+        box-shadow: 0 0 0 1px rgba(180, 180, 180, 0.28), 0 14px 36px rgba(180, 180, 180, 0.18);
       }
 
       .hero-grid {
-        background-image: linear-gradient(rgba(107, 182, 255, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(107, 182, 255, 0.08) 1px, transparent 1px);
+        background-image: linear-gradient(rgba(180, 180, 180, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(180, 180, 180, 0.08) 1px, transparent 1px);
         background-size: 70px 70px;
       }
 
       .floating-orb {
         position: absolute;
         border-radius: 9999px;
-        background: radial-gradient(circle at 30% 30%, rgba(220, 238, 255, 0.36), rgba(107, 182, 255, 0.08));
+        background: radial-gradient(circle at 30% 30%, rgba(220, 220, 220, 0.36), rgba(180, 180, 180, 0.08));
         filter: blur(0.4px);
         animation: drift 14s linear infinite;
       }
@@ -152,8 +152,8 @@
 
       input:focus,
       select:focus {
-        border-color: rgba(107, 182, 255, 0.75);
-        box-shadow: 0 0 0 4px rgba(107, 182, 255, 0.18);
+        border-color: rgba(180, 180, 180, 0.75);
+        box-shadow: 0 0 0 4px rgba(180, 180, 180, 0.18);
         outline: none;
       }
 
@@ -239,11 +239,6 @@
       const AreaChart = rechartsLib.AreaChart || FallbackWrap;
       const Area = rechartsLib.Area || FallbackNull;
 
-      const navItems = [
-        { id: 'dashboard', label: 'Client Dashboard' },
-        { id: 'health', label: 'Health Score' },
-      ];
-
       const quizQuestions = [
         {
           id: 'structure',
@@ -291,13 +286,13 @@
       const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
       const chartPalette = {
         axis: '#8A8A9A',
-        primary: '#6BB6FF',
-        secondary: '#9BD7FF',
+        primary: '#b4b4b4',
+        secondary: '#D4D4D8',
         teal: '#00C896',
         sage: '#2DD4BF',
-        mist: '#F5B700',
+        mist: '#F59E0B',
         alert: '#FF4D6D',
-        info: '#FF8A3D',
+        info: '#8B5CF6',
       };
       const mockAuth = {
         email: 'sarah@mitchellfineart.com',
@@ -817,7 +812,7 @@
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.7, duration: 0.4, ease: 'easeOut' }}
                   className="mt-2 text-[16px]"
-                  style={{ color: '#9BD7FF', letterSpacing: '0.35em' }}
+                  style={{ color: '#b4b4b4', letterSpacing: '0.35em' }}
                 >
                   Financial Group
                 </motion.p>
@@ -927,8 +922,6 @@
       const App = () => {
         const splashShownRef = useRef(false);
         const [showSplash, setShowSplash] = useState(() => !splashShownRef.current);
-        const [activeSection, setActiveSection] = useState('hero');
-
         const [stateTaxRate] = useState(5);
 
         const [quizIndex, setQuizIndex] = useState(0);
@@ -973,26 +966,6 @@
         }, []);
 
         useEffect(() => {
-          const sections = ['hero', 'dashboard', 'health']
-            .map((id) => document.getElementById(id))
-            .filter(Boolean);
-
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  setActiveSection(entry.target.id);
-                }
-              });
-            },
-            { rootMargin: '-35% 0px -40% 0px', threshold: 0.2 }
-          );
-
-          sections.forEach((section) => observer.observe(section));
-          return () => observer.disconnect();
-        }, []);
-
-        useEffect(() => {
           const sectionIds = dashboardSectionItems.map((item) => item.id);
           const headerOffset = 132;
           let sections = [];
@@ -1012,10 +985,12 @@
               return;
             }
 
-            const marker = window.scrollY + headerOffset;
+            const markerY = headerOffset + 24;
             let activeId = sections[0].id;
+
             sections.forEach((section) => {
-              if (section.offsetTop <= marker) activeId = section.id;
+              const top = section.getBoundingClientRect().top;
+              if (top <= markerY) activeId = section.id;
             });
 
             setActiveDashboardSection((prev) => (prev === activeId ? prev : activeId));
@@ -1489,19 +1464,6 @@
                   />
                   EverMore & Company
                 </button>
-                <nav className="hidden items-center gap-6 lg:flex">
-                  {navItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className={`text-sm transition-colors ${
-                        activeSection === item.id ? 'text-gold' : 'text-textsoft hover:text-softgold'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </nav>
                 <div className="relative flex items-center gap-2">
                   <div className="relative">
                     <button
@@ -1619,12 +1581,6 @@
                     style={{ color: '#0A0A0F' }}
                   >
                     Go to My Dashboard
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('health')}
-                    className="rounded-xl border border-softgold/50 bg-surface/80 px-6 py-3 font-semibold text-softgold transition hover:border-gold"
-                  >
-                    View My Health Score
                   </button>
                 </div>
 
@@ -1847,7 +1803,7 @@
                             <XAxis dataKey="label" stroke={chartPalette.axis} />
                             <YAxis tickFormatter={(v) => `$${Math.round(v / 1000)}k`} stroke={chartPalette.axis} />
                             <Tooltip formatter={(v) => (v ? currency(v) : '—')} />
-                            <Area dataKey="high" stroke="none" fill="rgba(107,182,255,0.12)" />
+                            <Area dataKey="high" stroke="none" fill="rgba(180,180,180,0.12)" />
                             <Area dataKey="low" stroke="none" fill="#0A0A0F" />
                             <Line type="monotone" dataKey="actual" stroke={chartPalette.primary} strokeWidth={3} dot={false} />
                             <Line type="monotone" dataKey="projected" stroke={chartPalette.info} strokeDasharray="6 6" strokeWidth={2.5} dot={false} />
@@ -2026,7 +1982,7 @@
                               <XAxis dataKey="month" stroke={chartPalette.axis} />
                               <YAxis stroke={chartPalette.axis} />
                               <Tooltip formatter={(v) => currency(v)} />
-                              <Bar dataKey="before" fill={chartPalette.alert} />
+                              <Bar dataKey="before" fill="#9BD7FF" />
                               <Bar dataKey="after" fill={chartPalette.primary} />
                             </BarChart>
                           </ResponsiveContainer>
@@ -2432,104 +2388,6 @@
                 ) : null}
               </AnimatePresence>
             </section>
-
-            <SectionShell
-              id="health"
-              title="Your Financial Health Score"
-              subtitle="A quick diagnostic powered by core financial operating standards for growth-stage artist businesses."
-            >
-              <div className="grid gap-6 lg:grid-cols-12">
-                <div className="glass elev-card rounded-2xl p-6 lg:col-span-7">
-                  {!quizComplete ? (
-                    <>
-                      <p className="text-sm uppercase tracking-[0.14em] text-softgold">
-                        Question {quizIndex + 1} of {quizQuestions.length}
-                      </p>
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={quizIndex}
-                          initial={{ opacity: 0, x: 24 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -24 }}
-                          transition={{ duration: 0.32 }}
-                          className="mt-5"
-                        >
-                          <h3 className="font-display text-3xl text-white">{quizQuestions[quizIndex].question}</h3>
-                          <div className="mt-5 grid gap-3">
-                            {quizQuestions[quizIndex].options.map((option) => (
-                              <button
-                                key={option}
-                                onClick={() => handleQuizAnswer(option)}
-                                className="rounded-xl border border-white/15 bg-base/75 px-4 py-3 text-left text-white transition hover:border-gold hover:text-softgold"
-                              >
-                                {option}
-                              </button>
-                            ))}
-                          </div>
-                        </motion.div>
-                      </AnimatePresence>
-                    </>
-                  ) : (
-                    <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}>
-                      <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
-                        <Gauge score={quizScore} />
-                        <div>
-                          <p className="text-sm uppercase tracking-[0.15em] text-textsoft">Letter Grade</p>
-                          <p className="font-display text-7xl text-gold">{quizGrade}</p>
-                          <p className="max-w-md text-textsoft">
-                            This score reflects your current structure, discipline, and risk controls. Your upside improves fast once these core systems are aligned.
-                          </p>
-                          <button onClick={resetQuiz} className="mt-4 text-sm text-softgold hover:text-gold">
-                            Retake Audit
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="mt-6 grid gap-3 md:grid-cols-3">
-                        {recommendations.map((rec) => (
-                          <div key={rec.title} className="rounded-xl border border-gold/20 bg-base/70 p-4">
-                            <p className="text-xs uppercase tracking-[0.14em] text-softgold">{rec.pillar}</p>
-                            <p className="mt-2 text-lg font-semibold text-white">{rec.title}</p>
-                            <p className="mt-2 text-sm text-textsoft">{rec.text}</p>
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        onClick={() => scrollToSection('dashboard')}
-                        className="shimmer-btn mt-6 rounded-xl bg-gold px-6 py-3 font-semibold"
-                        style={{ color: '#0A0A0F' }}
-                      >
-                        Return to My Dashboard
-                      </button>
-                    </motion.div>
-                  )}
-                </div>
-
-                <div className="glass elev-card rounded-2xl p-6 lg:col-span-5">
-                  <p className="text-sm uppercase tracking-[0.15em] text-softgold">Audit Context</p>
-                  <h3 className="mt-2 font-display text-3xl text-white">Built for Independent Artists</h3>
-                  <p className="mt-3 text-textsoft">
-                    Your growth brings complexity: mixed revenue streams, platform volatility, inventory costs, and inconsistent tax planning. This audit identifies the exact systems to stabilize and scale your business.
-                  </p>
-
-                  <div className="mt-6 space-y-3">
-                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
-                      <p className="text-sm text-textsoft">Consultant</p>
-                      <p className="font-semibold text-white">Aaron Joseph, CFA, MBA</p>
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
-                      <p className="text-sm text-textsoft">Phone</p>
-                      <p className="font-semibold text-white">(312) 555-0192</p>
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-base/70 p-4">
-                      <p className="text-sm text-textsoft">Website</p>
-                      <p className="font-semibold text-white">www.evermorefinancial.com</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SectionShell>
 
             <footer className="border-t border-white/10 px-4 py-8 text-center text-sm text-textsoft">
               EverMore & Company Client Portal · (312) 555-0192 · www.evermorefinancial.com
