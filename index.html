@@ -17,11 +17,11 @@
         theme: {
           extend: {
             colors: {
-              base: '#0A0A0F',
+              base: '#346094',
               surface: '#12121A',
               gold: '#b4b4b4',
               softgold: '#b4b4b4',
-              textsoft: '#8A8A9A',
+              textsoft: '#D9E6F5',
               success: '#00C896',
               danger: '#FF4D6D',
             },
@@ -38,11 +38,11 @@
     </script>
     <style>
       :root {
-        --bg: #0a0a0f;
+        --bg: #346094;
         --surface: #12121a;
         --gold: #b4b4b4;
         --gold-soft: #b4b4b4;
-        --text-muted: #8a8a9a;
+        --text-muted: #d9e6f5;
         --success: #00c896;
         --danger: #ff4d6d;
       }
@@ -285,7 +285,7 @@
 
       const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
       const chartPalette = {
-        axis: '#8A8A9A',
+        axis: '#D9E6F5',
         primary: '#b4b4b4',
         secondary: '#D4D4D8',
         teal: '#00C896',
@@ -295,7 +295,6 @@
         info: '#8B5CF6',
       };
       const mockAuth = {
-        email: 'sarah@mitchellfineart.com',
         password: 'EverMore2025',
       };
       const advisorSeedMessages = [
@@ -660,9 +659,9 @@
       };
 
       const SignInScreen = ({
-        email,
+        username,
+        setUsername,
         password,
-        setEmail,
         setPassword,
         showPassword,
         setShowPassword,
@@ -730,10 +729,10 @@
             <div className="mt-6 space-y-3">
               <input
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                placeholder="Email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                placeholder="Username"
                 className="w-full rounded-xl border border-white/15 bg-base/70 px-4 py-3 text-white"
               />
               <div className="relative">
@@ -827,7 +826,7 @@
                   animate={{ opacity: 1 }}
                   transition={{ delay: 2.55, duration: 0.35, ease: 'easeOut' }}
                   className="mt-4 text-[13px] italic"
-                  style={{ color: '#8A8A9A' }}
+                  style={{ color: '#D9E6F5' }}
                 >
                   We protect what you&apos;ve built — and grow what&apos;s possible.
                 </motion.p>
@@ -933,7 +932,7 @@
         const [activeDashboardSection, setActiveDashboardSection] = useState('dash-sales');
         const [nextInventoryId, setNextInventoryId] = useState(11);
         const [taxActionChecks, setTaxActionChecks] = useState({});
-        const [authEmail, setAuthEmail] = useState('');
+        const [authUsername, setAuthUsername] = useState('');
         const [authPassword, setAuthPassword] = useState('');
         const [showPassword, setShowPassword] = useState(false);
         const [authError, setAuthError] = useState('');
@@ -959,6 +958,14 @@
           { id: 'health', title: 'Reach Health Score of 90/100', current: 71, target: 100, pct: 71, date: 'December 2026', status: 'On Track', statusColor: 'green', note: 'Score trend: 38 → 54 → 71 → 90 projected.' },
         ]);
         const [goalCelebration, setGoalCelebration] = useState(false);
+
+        const userDisplayName = dashboardData.clientName || 'Sarah Mitchell';
+        const userInitials = userDisplayName
+          .split(' ')
+          .filter(Boolean)
+          .slice(0, 2)
+          .map((part) => part[0]?.toUpperCase() || '')
+          .join('') || 'SM';
 
         const scrollToSection = useCallback((id) => {
           const target = document.getElementById(id);
@@ -1390,9 +1397,7 @@
         const handleSignIn = (event) => {
           event.preventDefault();
           setAuthError('');
-          const valid =
-            authEmail.trim().toLowerCase() === mockAuth.email &&
-            authPassword === mockAuth.password;
+          const valid = authPassword === mockAuth.password;
           if (!valid) {
             setAuthPassword('');
             setAuthError('invalid');
@@ -1402,18 +1407,20 @@
           }
           setAuthLoading(true);
           setTimeout(() => {
+            const signedInName = authUsername.trim() || 'Sarah Mitchell';
             setAuthLoading(false);
             setIsAuthenticated(true);
             setSignedOutNotice('');
             setAuthError('');
             setShowUserMenu(false);
+            setDashboardData((prev) => ({ ...prev, clientName: signedInName }));
           }, 500);
         };
 
         const handleSignOut = () => {
           setIsAuthenticated(false);
           setShowUserMenu(false);
-          setAuthEmail('');
+          setAuthUsername('');
           setAuthPassword('');
           setShowPassword(false);
           setAuthError('');
@@ -1431,9 +1438,9 @@
           }
           return (
             <SignInScreen
-              email={authEmail}
+              username={authUsername}
+              setUsername={setAuthUsername}
               password={authPassword}
-              setEmail={setAuthEmail}
               setPassword={setAuthPassword}
               showPassword={showPassword}
               setShowPassword={setShowPassword}
@@ -1513,8 +1520,8 @@
                       onClick={() => setShowUserMenu((v) => !v)}
                       className="flex items-center gap-2 rounded-lg border border-gold/45 bg-gold/15 px-3 py-2 text-sm font-semibold text-softgold"
                     >
-                      <span className="grid h-7 w-7 place-items-center rounded-full bg-gold text-xs font-bold text-base">SM</span>
-                      <span>Sarah Mitchell</span>
+                      <span className="grid h-7 w-7 place-items-center rounded-full bg-gold text-xs font-bold text-base">{userInitials}</span>
+                      <span>{userDisplayName}</span>
                     </button>
                     {showUserMenu ? (
                       <div className="absolute right-0 mt-2 w-40 rounded-xl border border-white/10 bg-surface p-2 shadow-lg">
@@ -1527,14 +1534,6 @@
                       </div>
                     ) : null}
                   </div>
-                  <button
-                    onClick={resetDemoData}
-                    title="Reset demo values"
-                    aria-label="Reset demo values"
-                    className="grid h-9 w-9 place-items-center rounded-full border border-gold/45 bg-base text-sm text-gold transition hover:bg-gold/10"
-                  >
-                    ⏻
-                  </button>
                 </div>
               </div>
             </header>
@@ -1639,7 +1638,7 @@
                   <div className="glass rounded-2xl p-5">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
-                        <h2 className="font-display text-4xl text-white">Welcome back, {dashboardData.clientName}</h2>
+                        <h2 className="font-display text-4xl text-white">Welcome back, {userDisplayName}</h2>
                         <p className="mt-1 text-softgold">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
                       </div>
                       <button onClick={() => window.print()} className="no-print shimmer-btn rounded-xl border border-gold/35 bg-gold/15 px-4 py-2 text-sm font-semibold text-softgold">
